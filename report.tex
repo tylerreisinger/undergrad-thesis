@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage [english]{babel}
 \usepackage [autostyle, english = american]{csquotes}
 \MakeOuterQuote{"}
@@ -270,7 +271,7 @@ and frequencies of the destructive events encountered.
     include any binary star systems. The number
     of stars in the cluster were varied between 1000 and 10000. 
 
-    \begin{figure}
+    \begin{figure}[h]
         \centering
         \caption{Two clustered generated and used for simulation superimposed.}
         \includegraphics[width=4.0in]{cluster_superimposed.png}
@@ -287,10 +288,12 @@ and frequencies of the destructive events encountered.
 
     %TODO: Blah
 
-    %TODO: Add closest approach spectrum
-
-    %TODO: Encounter distance vs distance of closest approach
-    
+    \begin{figure}[h]
+        \centering
+        \caption{Closest approach of all recorded encounters in 30 cluster simulations.
+            For our purposes, we are primarily interested in those below 30 AU.}
+        \includegraphics[width=4.0in]{encounter_distance_frequency}
+    \end{figure}
 
     \subsection{Planetary System Simulation}
 
@@ -345,9 +348,32 @@ and frequencies of the destructive events encountered.
     interaction to perform manual analysis on some particularly interesting 
     encounters.
 
-    %TODO: Figure: Two figures of interacting systems
+    \begin{figure}[H]
+        \centering
+        \caption{Two examples of close encounter events. On the left, we see
+            an ejection of two planets from the systems. On the right, one planet
+            in the first system is captured by the second and approaches 
+            within 0.5 AU of the star. In both cases, the
+            orbits of the remaining planets become more eccentric.
+        }
+        \begin{tabular}{cc}
+            \includegraphics[width=3in]{1_67_AU_zoom} &
+            \includegraphics[width=3in]{1.4AU/1_4_AU_encounter_plot}
+        \end{tabular}
+    \end{figure}
 
     \subsection{Analysis}
+
+    The final phase of the pipeline is to actually analyze the encounter data 
+    output by the previous simulations. After a few days of running simulations,
+    we are able to obtain nearly one-thousand close encounters simulated
+    for analysis. The database constructed for this process allows all of the
+    simulations to be quickly read in and related back to their originating clusters.
+
+    There are numerous potentially interesting trends or situations to look for in
+    the output. One very simple analysis we performed was to look at the output
+    eccentricities. Since all planets were given $e=0$ initial orbits, any deviation
+    from zero in the output is an effect of the interaction.
 
     %Some analysis pictures
 
@@ -361,6 +387,54 @@ and frequencies of the destructive events encountered.
     %Future?
 
 \section{Data Pipeline and Storage}
+
+    One pervasive problem in running a large number of simulations for analysis is
+    that there is a large amount of data created and all of this data needs to be
+    organized in order to perform detailed analysis. For instance, different simulations
+    needs to be kept separate and the parameters used to create the clusters initially
+    needs to be known. Additionally, if changes are made to any part of the process, it
+    is necessary to keep that data apart from the previous data.
+
+    A second important consideration for this project is that the simulations themselves
+    can be run in parallel and in large numbers. Big runs take a long time to run
+    and thus it would be highly beneficial to be able to simultaneously run cluster
+    simulations, run planetary system encounter simulations and analyze all of the
+    completed simulations without worrying about the processes interfering with one
+    another or using only partially complete data.
+
+    In order to address all of these concerns, we developed a python library 
+    for writing, maintaining and reading a database of this information. This database
+    creates one directory for each cluster that is simulated. Within each directory,
+    there is a table of all encounters, a table of the initial states of all stars
+    and a set of details about the run itself. These directories are separated
+    into clusters of the same initial cluster parameters for easy segregation if needed.
+
+    When simulations of the individual encounters are performed, each encounter
+    creates a subdirectory inside of the originating cluster's directory for the 
+    results. 
+    The initial and final parameters of each body in the simulation are stored, along
+    with trajectories for the particles during the encounter. When all simulations
+    in some cluster are complete, overall statistics about which encounters were
+    simulated and which were skipped due to data cuts.
+
+    In each of these processes, the program first creates a "lock" file before it
+    writes any data to the database. This lock file signifies that the cluster or
+    encounters within are being actively simulated by some program at the time and
+    should not be touched by anything else until it is removed. This allows us to
+    safely achieve the high level of parallelisation desired without risk of data
+    corruption. The lock file stores the time it is created so if a program
+    crashes, power is lost or some other event that causes the program to end without
+    proper termination, a lock can be identified as old automatically which 
+    signals that the data contained within is likely incomplete and the program
+    writing it was unable to properly complete.
+
+    One final data management feature is the inclusion of a database version number
+    in each summary file produced. This allows for the data format to be modified,
+    additional features to be added and backward incompatible changes to be introduced
+    without making all old data unusable. 
+
+    It is our hope is not only that this makes our data analysis tasks easier, but
+    that it is usable by future researchers who want to perform similar experiments.
 
 \section{Conclusion}
 
