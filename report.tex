@@ -153,6 +153,28 @@ and frequencies of the destructive events encountered.
 
 %TODO: Finish this
 
+\subsection{Orbital Elements}
+
+    An important set of information for analyzing the behavior of the stellar and
+    planetary dynamics are the orbital elements that mathematically 
+    characterize their relative motion. 
+    For our purpose, we are most interested in the eccentricity $e$ and the
+    semimajor axis $a$. The eccentricity describes how "long" the orbit is, $e=0$
+    is a perfectly circular orbit whereas $0<e<1$ are elliptical orbits of increasingly
+    oblong shape. $e>1$ define hyperbolic orbits where bodies are no longer
+    gravitationally bound. Additionally, these two pieces of information allow us to 
+    compute the closest and farthest points of a bound orbit by two simple relations.
+
+    The pericenter or closest distance is defined as:
+    \begin{equation}
+        r_{per} = (1 - e) a
+    \end{equation}
+    Whereas the apocenter or farthest distance is defined as:
+    \begin{equation}
+        r_{apo} = (1 + e) a
+    \end{equation}
+
+
 \section{Methods}
 
     Our approach was entirely computational in nature. We developed a collection of tools
@@ -270,7 +292,7 @@ and frequencies of the destructive events encountered.
     %TODO: Encounter distance vs distance of closest approach
     
 
-    \subsection{Monte Carlo}
+    \subsection{Planetary System Simulation}
 
     From the N-Body simulation, a list of star encounters for any number of 
     clusters may be generated. The next step is to read these encounters and
@@ -283,13 +305,47 @@ and frequencies of the destructive events encountered.
     Once the stars are setup with their planets, their gravitational dynamics
     are simulated. As the stars have just started interacting, the stars should
     move toward each other, reach a point of closest approach and then separate again
-    in hyperbolic orbits.
+    in hyperbolic orbits. When the two stars separate to a distance farther than
+    apart than they started, the simulation is stopped and the final states of the two
+    systems are recorded. 
 
-    In the next phase of the experiment, we define a "close encounter" to be
-    one where the closest approach between two stars is 30 AU or less and discard
-    all other encounters from the dataset. 
+    As previously stated, each hundred megayears of a cluster simulation yields over
+    one hundred encounters, but most of these encounters are completely uninteresting
+    in their planetary dynamics. So for these simulations, the list of encounters is 
+    first filtered so "uninteresting" interactions are removed. For an Earth-Jupiter
+    system, a closest approach of 30 AU was chosen as the farthest limit to be
+    worth considering. With this cut in place, only ten to twenty encounters, on
+    average, are left per 100 megayears of cluster simulation.
 
-    %Two figures of interacting systems
+    %TODO: If more distant planets added, 30 AU limit must increase.
+
+    Each individual two-system simulation requires between five to ten 
+    minutes of wall time to run on the computational cluster. This can be
+    parallelized easily and we were able to run between ten and thirty 
+    simulations at once. With the 30 AU cut, this was a very manageable 
+    simulation rate and allowed all relevant encounters in a cluster simulation
+    within 30 minutes in most cases.
+
+    The planets added to the stars were kept consistent throughout, thus 
+    each star in each simulation was made to have one Earth and one Jupiter planet
+    orbiting it with the approximate physical and orbital
+    parameters as the respective planets in our solar system. 
+    In this way, all variation will occur through variations in the clusters, not
+    the planetary systems.
+    All planets are
+    placed in a perfectly circular orbit ($e=0$), which makes it easy to analyze
+    any changes after the interaction.
+    %TODO: Orbital planes
+
+    When the simulation is finished, the data important for later analysis is
+    saved for later use. The most important of this data is the starting and ending
+    orbital elements, as well as the initial final positions of each of the bodies.
+    Additionally, the trajectory of all bodies as they approach one another are
+    saved in detail. This information is useful for replaying or plotting the
+    interaction to perform manual analysis on some particularly interesting 
+    encounters.
+
+    %TODO: Figure: Two figures of interacting systems
 
     \subsection{Analysis}
 
@@ -303,6 +359,8 @@ and frequencies of the destructive events encountered.
     %Runtime considerations
 
     %Future?
+
+\section{Data Pipeline and Storage}
 
 \section{Conclusion}
 
@@ -344,6 +402,17 @@ Foreman-Mackey, D., Morton, T.~D., Hogg, D.~W., Agol, E., \& Sch{\"o}lkopf, B.\ 
 
 \bibitem{Shara et al. 2014} Shara, M.~M., Hurley, J.~R., \& Mardling, R.~A.\ 2014, arXiv:1411.7061 
 
+%
+%
+%	"HopInterface"
+%		Eisenstein, DJ, Hut, P, HOP: A new group-finding algorithm for N-body simulations, ApJ 498 (1998)
+%
+%
+%	"AMUSE"
+%		** Portegies Zwart, S. et al., 2013, Multi-physics Simulations Using a Hierarchical Interchangeable Software Interface, Computer Physics Communications 183, 456-468 [2013CoPhC.183..456P]
+%		** Pelupessy, F. I. et al., 2013, The Astrophysical Multipurpose Software Environment, Astronomy and Astrophysics 557, 84 [2013A&A...557A..84P]
+%		Portegies Zwart, S. et al., 2009, A multiphysics and multiscale software environment for modeling astrophysical systems, *New Astronomy*, **Volume 14**, **Issue 4**, 369-378 [2009NewA...14..369P]
+%
 \end{thebibliography}
 
 \end{document}
