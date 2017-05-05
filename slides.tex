@@ -7,11 +7,49 @@
 
 \graphicspath{{images/}{plots/}}
 
-\title{Effect of Jupiter-sized Planet Interactions on Planetary Systems}
+\title{Effect of Strong Stellar Interactions on Planetary Systems and
+            the Formation of Hot Jupiters}
 \author{Tyler Reisinger}
 \date{}
 
 \begin{document}
+
+\begin{frame}
+    \maketitle
+    \begin{center}
+        Advisor: Dr. Steve McMillan
+    \end{center}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.25in]{Image1_HotJupiter1}
+        %\caption{Artistic interpretation of an HJ around a star. Image: Haven Giguere, Nikku Madhusudhan}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Hot Jupiters}
+    \begin{columns}
+        \column{0.66\textwidth}
+            \begin{itemize}
+                \item Jupiter-mass planets orbiting very close ($<0.5$ AU) to their host star.
+                \item Jupiters are believed to form far out in the solar system.
+                    \begin{itemize}
+                        \item How do they become so close?
+                        \item What causes their migration?
+                    \end{itemize}
+                \item An estimated 1\% of planetary systems contain a 
+                    Hot Jupiter (A. Brucalassi et al. 2016)\footnotemark.
+            \end{itemize}
+        \column{0.34\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1.66in]{large_hj}
+            \end{figure}
+    \end{columns}
+
+    \footnotetext[1]{James B. Pollack, Olenka Hubickyj, Peter Bodenheimer, Jack J. Lissauer, Morris Podolak, Yuval Greenzweig, Formation of the Giant Planets by Concurrent Accretion of Solids and Gas, Icarus, Volume 124, Issue 1, 1996, Pages 62-85, ISSN 0019-1035, http://dx.doi.org/10.1006/icar.1996.0190.
+(http://www.sciencedirect.com/science/article/pii/S0019103596901906) }
+
+\end{frame}
 
 \begin{frame}{Background}
     \begin{columns}
@@ -19,11 +57,6 @@
         \begin{itemize}
             \item Explore formation scenarios for Hot Jupiters (HJs) in planetary
                 systems.
-                \begin{itemize}
-                    \item Jupiter-mass planets orbiting very close to their host star.
-                    \item An estimated 1\% of planetary systems contain a 
-                        Hot Jupiter (A. Brucalassi et al. 2016)\footnotemark.
-                \end{itemize}
             \item Understand the side-effects of HJ formation.
                 \begin{itemize}
                     \item Does the migration of the HJ affect other planetary orbits?
@@ -37,10 +70,8 @@
                 \includegraphics[width=1.66in]{hj_orbit}
             \end{figure}
     \end{columns}
-    \footnotetext[1]{James B. Pollack, Olenka Hubickyj, Peter Bodenheimer, Jack J. Lissauer, Morris Podolak, Yuval Greenzweig, Formation of the Giant Planets by Concurrent Accretion of Solids and Gas, Icarus, Volume 124, Issue 1, 1996, Pages 62-85, ISSN 0019-1035, http://dx.doi.org/10.1006/icar.1996.0190.
-(http://www.sciencedirect.com/science/article/pii/S0019103596901906) }
-
 \end{frame}
+
 \begin{frame}{Theory}
     \begin{columns}
         \column{0.67\textwidth}
@@ -73,7 +104,118 @@
             \end{figure}
     \end{columns}
 \end{frame}
-\begin{frame}{Cluster N-Body}
+
+\begin{frame}{Orbital Elements}
+    \begin{itemize}
+        \item Allow us to compute the closest approach analytically.
+        \item Characterize planetary orbits.
+        \item Allow numerical categorization of orbit changes.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.5in]{orbital_elems}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Orbital Elements}
+    \begin{description}
+        \item[e] -- Eccentricity - How oblong the orbit is.
+            \begin{itemize}
+                \item $e = 0.0$ is a circular orbit.
+                \item $e < 1.0$ is an elliptical orbit.
+                \item $e > 1.0$ is a hyperbolic escape trajectory.
+            \end{itemize}
+        \item[a] -- Semimajor Axis - The longest orbital axis length.
+        \item[i] -- Inclination - Vertical tilt from horizontal.
+    \end{description}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.5in]{orbital_elems}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Code}
+    \begin{itemize}
+        \item Simulations are built with the AMUSE astrophysics library for python.
+        \item Run on Drexel's Draco computing cluster.
+        \begin{figure}
+            \centering
+            \begin{tabular}{cc}
+                \includegraphics[height=1in]{AmuseLogo} & \includegraphics[height=1in]{PythonLogo}
+            \end{tabular}
+        \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Star Cluster Simulation}
+    \begin{itemize}
+        \item Planets only affected by very close ($\le $30 AU) encounters.
+        \item Time scale between these interactions is long.
+            \begin{itemize}
+                \item About 1 encounter per 100,000 years
+            \end{itemize}
+        \item Time scale for planetary orbits are short.
+            \begin{itemize}
+                \item Earth orbits the sun in 1 year.
+            \end{itemize}
+        \item Simulating planets in the cluster would require much more
+            computation than just stars.
+    \end{itemize}
+    \begin{figure}
+        \includegraphics[height=1.5in]{star_cluster.jpg}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Star Cluster Simulation}
+    Idea: Simulate only stars and add planets later in isolation.
+    \begin{itemize}
+        \item Record exact parameters of star encounters.
+        \item Don't waste resources simulating stable planet orbits.
+        \item Allows much more detailed simulation for strong encounters
+            without slowing everything down.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Pipeline}
+    \begin{enumerate}
+        \item Star Cluster N-Body simulations
+            \begin{itemize}
+                \item Catalog close encounters for later simulation
+            \end{itemize}
+        \item Planetary system simulations of two interacting systems.
+            \begin{itemize}
+                \item Use encounters found in star cluster simulations.
+                \item Observe how these encounters affect planets.
+                \item Save planetary system end-states for analysis.
+            \end{itemize}
+        \item Analysis 
+            \begin{itemize}
+                \item Observe patterns over many different encounters.
+                \item Look for Hot Jupiter formation or other interesting events.
+            \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Star Cluster Simulation Approach}
+    \begin{itemize}
+        \item Run many gravitational simulations of star clusters.
+            \begin{itemize}
+                \item Each cluster has the same set of parameters.
+                \begin{itemize}
+                    \item Number of Stars
+                    \item Mass distribution
+                \end{itemize}
+            \end{itemize}
+        \item Catalog encounter parameters of all close star-star encounters.
+        \begin{figure}
+            \includegraphics[height=1.5in]{cluster1.png}
+        \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Star Cluster Simulation Approach}
     \begin{itemize}
         \item King Model with $W_0 = 3.0$.
         \item Clusters of a few thousand stars are created and simulated.
@@ -96,30 +238,31 @@
 
 \begin{frame}{Encounter Results}
     \begin{itemize}
-        \item For a simulation of 4000 stars run for 150 Myr:
+        \item For 32 cluster simulations of around 100 Myr each: 
             \begin{itemize}
-                \item There were 632 total encounters returned to us by AMUSE.
-                \item Radius of closest encounter ranges between 0 and 300 AU.
-                \item Only 7.5 \% of encounters are close enough to be
+                \item There were 13,114 total encounters returned by AMUSE.
+                \item Closest encounter distance ranges between 0 and 400 AU.
+                \item Just under 5.0 \% of encounters are close enough to be
                     considered for planetary encounters ($<$ 30 AU).
             \end{itemize}
     \end{itemize}
     \begin{figure}
         \center
-        \includegraphics[width=2.5in]{encounter_dist}
+        \includegraphics[width=2.5in]{encounter_distance_frequency}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Stage 2: Monte-Carlo Simulations}
+\begin{frame}{Stage 2 -- Planetary Simulations}
     \begin{itemize}
         \item Take the cluster encounter data and run detailed simulations.
+        \item Each simulation has 2 stars and 4 planets
         \begin{itemize}
             \item Initialize stars from encounter parameters.
             \item Ignore distant encounters.
             \item Add some planets, currently an Earth and Jupiter.
-            \item Let run from recorded encounter.
+            \item Let the simulation run until the encounter is over.
             \item Store trajectories of all bodies.
-            \item Simulate until encounter is "over".
+            \item Store final state of both systems.
         \end{itemize}
     \end{itemize}
     \begin{figure}
@@ -127,5 +270,160 @@
         \includegraphics[height=1.75in]{17_7_AU}
     \end{figure}
 \end{frame}
+
+\begin{frame}{Simulation Example}
+    \begin{figure}
+        \centering
+        \includegraphics[width=4.00in]{Params.png}
+    \end{figure}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{ejection.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Simulation Example}
+    \begin{figure}
+        \centering
+        \includegraphics[width=3.75in]{1_67_AU_zoom}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Simulation Example}
+    \begin{figure}
+        \centering
+        \includegraphics[height=2.5in]{1.4AU/1_4_AU_encounter_plot}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Stage 2 -- Planetary Simulations}
+    \begin{itemize}
+        \item These simulations generate a lot of data.
+            \begin{itemize}
+                \item A lot to analyze by hand.
+                \item If anything needs changed, everything would have to be
+                    repeated.
+            \end{itemize}
+        \item Develop a way to analyze data computationally.
+            \begin{itemize}
+                \item The orbital elements help us here.
+            \end{itemize}
+        \item Store the data in a way to facilitate easy computational
+            analysis.
+        \item Store all data needed to interpret simulations without rerunning them.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Parallelism}
+    \begin{itemize}
+        \item Each cluster sim yields 20-50 close encounters.
+        \item Each close encounter simulation takes 5-10 minutes to
+            complete.
+        \item Our goal is to have over 1,000 encounters, that would take
+            more than 120 hours to do in sequence!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Parallelism}
+    \begin{columns}
+    \column{0.67\textwidth}
+        \begin{itemize}
+            \item Each simulation is independent of all others.
+            \item Each node of Draco has 12 processing "cores".
+            \item Running many simulations in parallel can reduce
+                time required dramatically.
+        \end{itemize}
+    \column{0.33\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.5in]{multicore}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+% Database stuff
+
+\begin{frame}{Analysis}
+    \begin{itemize}
+        \item We want to analyse the results of many
+            simulations.
+        \item Using numerical categorization such eccentricity,
+            we can try to answer questions about the simulation results.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Results -- Eccentricity}
+    \begin{itemize}
+        \item All planets are initialized to have zero eccentricity.
+        \item Any eccentricity at the end is a sign of orbit changes.
+        \item Higher eccentricities correlate to larger changes.
+        \item Eccentricities $\ge 1.0$ imply a planet escaped from its
+            original system.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{eccentricity_final}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results -- Eccentricity}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{eccentricity_final}
+    \end{figure}
+    \begin{itemize}
+        \item Most planets are relatively unaffected by the encounter.
+        \item As eccentricity gets more extreme, frequency decreases.
+        \item Some planets are thrown into highly eccentric orbits.
+        \item About 250 planets escaped (have eccentricity $> 1$) and are not included.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Results -- Hot Jupiter Formation}
+    \begin{itemize}
+        \item We may look at the closest approach of Jupiter after the encounter.
+        \item Jupiter originally orbits at 5.1 AU from the star.
+            \begin{itemize}
+                \item Without any encounter, there would be a single bin at 5.1 that
+                    all planets fit into.
+            \end{itemize}
+        \item Any closer encounter implies a "push" toward the star.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{jupiter_distance_final}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results -- Hot Jupiter Formation}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{jupiter_distance_final}
+    \end{figure}
+    \begin{itemize}
+        \item Again we see most Jupiter planets are not greatly affected.
+        \item The effect amount smears the closest approach toward zero,
+            with decreasing frequency the larger the change.
+        \item Some Jupiters do get very close to their host star.
+        \begin{itemize}
+            \item These could be further analyzed.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Results -- Earth}
+    \begin{itemize}
+        \item Earths are, as expected, affected less than Jupiters by the interaction.
+        \item Further simulation analysis needed to see if they are affected by Jupiter
+            migration.
+        \item Presumably more distant planets such as Neptunes would be more dramatically
+            affected.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{earth_distance_final}
+    \end{figure}
+\end{frame}
+
 
 \end{document}
