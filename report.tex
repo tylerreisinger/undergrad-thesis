@@ -79,8 +79,9 @@ experiments.
 In the study of exoplanets, one interesting class of planets are the so-called "Hot Jupiters" -- planets with a mass near that of Jupiter -- that have a 
 very small radius orbit around their host star. 
 Hot Jupiters are interesting as their orbits approach very close to the host star,
-despite the fact that most Jupiter-mass planets are considered to form much farther
-out -- in the accretion disk of the forming planetary system. If we look at our own
+despite the fact that most Jupiter-mass planets are believed to form much farther
+out -- in the accretion disk of the forming planetary system where gases 
+and other diffuse material can aggregate to form the new planet. If we look at our own
 solar system, we see that Jupiter orbits at around 5.2 Astronomical Units (AU) from the
 sun, where one AU is approximately the average orbital distance of the Earth. Indeed,
 we see a very large gap between the orbits of the inner, small and rocky planets, and
@@ -130,9 +131,10 @@ inner planets of the solar system during its transit. This would similarly
 cause the inner planet orbits to become more eccentric and could move
 these planets closer or farther from the star depending on the details of the
 interaction, or even eject them out of the system. Should this occur,
-then another "pair" planet could be formed in the same system. This would leave
-a second long-term impact on the system, if present, may provide observational
-evidence for this theory.
+then another "pair" planet could be formed in the same system. This "pair" planet 
+would likely also end up with an eccentric orbit. Pair planet formation would leave
+a second long-term impact on the system, which may provide additional observational
+evidence for this kind of interaction having taken place.
 
 Such an interaction also holds importance for the fate of the affected Earth-like planets.
 A planet formerly in the habitable zone of a star could be knocked into a far less
@@ -141,7 +143,9 @@ large planet in an eccentric orbit that passes within the inner planetary orbits
 even if it does not perturb these planets right away, might lead to later chance
 encounters between the planets that lead to orbital changes.
 
-We will focus on the star cluster interactions. Using computer simulation,
+%TODO: Revise first sentences.
+We will focus on the star cluster interactions and their potential to 
+cause structural changes to the planetary systems involved. Using computer simulation,
 we are able to probe the gravitational dynamics of these star system 
 interactions over several thousand years of physical time 
 in time scales much more relevant to human lifespan. We will simulate
@@ -220,7 +224,8 @@ and frequencies of the destructive events encountered.
 
     The final phase is to analyze the data generated from the previous simulations.
     Many simulations are run in order to develop a diverse profile of interactions.
-    At this phase, we look for interesting encounters, what events are most common
+    At this stage, we look for interesting encounters and related patterns, 
+    what sorts of effects are most common,
     and the approximate frequency of certain outcomes. From here, the results could
     be used to verify the validity of the simulations with observation and to make
     predictions about these events in the universe.
@@ -285,19 +290,33 @@ and frequencies of the destructive events encountered.
 
     Each 100 megayears of simulation time for one of these clusters yields a
     few hundred encounters on average. The close encounters given to our by 
-    AMUSE are based on the distance of the two stars at the present simulation time.
-    Since the most distant encounters where the two stars get little closer to one
-    another than this are mostly uninteresting to us, we also need to understand
-    the approximate distance of closest approach for these stars. Fortunately, treating
-    the interacting stars as a binary system allows us to compute the orbital parameters
-    of the interaction. 
+    AMUSE are based on the distance of the two stars at the time in the simulation
+    when the two stars first get close enough to interact, around 400 AU.
+    Since we are interested in planetary effects, only events where the stars
+    then approach very near one another are interesting to us. In order to
+    ignore more distant events in the future without having to run an expensive 
+    planetary simulation for each, we compute the orbital elements of the two
+    interacting stars, and use this with equation 1 to compute the approximate
+    distance of closest approach. The closest approach distance, as well as 
+    the orbital elements, are saved along with the encounter data for the later
+    stages to use.
+
+    In figure \ref{fig:encounter_distance}, we see the spectrum of closest approach
+    distances observed in all encounters within thirty cluster simulations. The
+    distribution is weighted more heavily toward the more distant encounters, which
+    will mostly be unused in later stages. In this sample of data, there are
+    646 total encounters with a closest approach distance under than 30 AU, 
+    out of 13114 total
+    encounters. This is just under 5\% of total encounters recorded.
 
     %TODO: Blah
 
-    \begin{figure}[h]
+    \begin{figure}[H]
         \centering
         \caption{Closest approach of all recorded encounters in 30 cluster simulations.
-            For our purposes, we are primarily interested in those below 30 AU.}
+            For our purposes, we are primarily interested in those below 30 AU.
+        }
+        \label{fig:encounter_distance}
         \includegraphics[width=4.0in]{encounter_distance_frequency}
     \end{figure}
 
@@ -356,6 +375,14 @@ and frequencies of the destructive events encountered.
     interaction to perform manual analysis on some particularly interesting 
     encounters.
 
+    Figure \ref{fig:planet_simulations} illustrates two examples of close encounter
+    events. These two examples are chosen from the 646 simulations
+    that were run in the database. The large hyperbolic trajectories are the 
+    two stars interacting while the helices around them are the planets. In these
+    interactions, the stars approach extremely close, within 2 AU on both, and
+    the planets are significantly affected. These two samples represent only
+    a snapshot of the full set of interactions that occur within the simulations.
+
     \begin{figure}[H]
         \centering
         \caption{Two examples of close encounter events. On the left, we see
@@ -364,6 +391,7 @@ and frequencies of the destructive events encountered.
             within 0.5 AU of the star. In both cases, the
             orbits of the remaining planets become more eccentric.
         }
+        \label{fig:planet_simulations}
         \begin{tabular}{cc}
             \includegraphics[width=3in]{1_67_AU_zoom} &
             \includegraphics[width=3in]{1.4AU/1_4_AU_encounter_plot}
@@ -387,7 +415,8 @@ and frequencies of the destructive events encountered.
     approximate amount an orbit was disturbed, it shows planets that were ejected
     from their original system.
 
-    %Some analysis pictures
+
+\section{Results}
 
     \begin{figure}[H]
         \centering
@@ -415,8 +444,6 @@ and frequencies of the destructive events encountered.
         \end{tabular}
     \end{figure}
 
-
-\section{Results}
 
     %Runtime considerations
 
