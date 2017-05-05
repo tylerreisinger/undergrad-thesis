@@ -76,7 +76,7 @@ experiments.
 
 \section{Introduction}
 
-In the study of exoplanets, one interesting class of planets are the so-called "Hot Jupiters" -- planets with near-Jupiter mass that have a 
+In the study of exoplanets, one interesting class of planets are the so-called "Hot Jupiters" -- planets with a mass near that of Jupiter -- that have a 
 very small radius orbit around their host star. 
 Hot Jupiters are interesting as their orbits approach very close to the host star,
 despite the fact that most Jupiter-mass planets are considered to form much farther
@@ -142,8 +142,9 @@ even if it does not perturb these planets right away, might lead to later chance
 encounters between the planets that lead to orbital changes.
 
 We will focus on the star cluster interactions. Using computer simulation,
-we may attempt to probe the gravitational dynamics of these star system 
-interactions in time scales much more relevant to human life. We will simulate
+we are able to probe the gravitational dynamics of these star system 
+interactions over several thousand years of physical time 
+in time scales much more relevant to human lifespan. We will simulate
 a large number of these interactions, building up a database of information about
 the initial and final states of the systems. From this data, we may perform large
 scale analyses, finding potential Hot Jupiter formation events, as well as other
@@ -178,6 +179,8 @@ and frequencies of the destructive events encountered.
 
 \section{Methods}
 
+    \subsection{Infrastructure}
+
     Our approach was entirely computational in nature. We developed a collection of tools
     and utilities utilizing the popular Python programming language and making use
     of the AMUSE (Astrophysical Multipurpose Software Environment) library. 
@@ -198,9 +201,12 @@ and frequencies of the destructive events encountered.
     a significant number of CPU cores as well as a few GPUs. Utilizing this cluster,
     we were able to run many simulations in parallel.
 
-    \subsection{Overview}
+    \subsection{Simulation}
 
-    The code has three logical phases. The first phase is to run simulations of typical
+    \subsubsection{Overview}
+
+    The code has three logical phases forming a "pipeline" of data flow. 
+    The first phase is to run simulations of typical
     star clusters and to record all "close encounters" between stars in the cluster.
     At this stage, there are no planets around the stars, but rather we will use the
     parameters of the close encounters to run more detailed simulations in isolation
@@ -221,9 +227,9 @@ and frequencies of the destructive events encountered.
 
     %TODO: Describe binary orbital parameters.
 
-    \subsection{N-Body Simulation}
+    \subsubsection{Cluster N-Body Simulation}
 
-    The N-Body simulation code was the first part the code to be completed. In the
+    The N-Body simulation code is the first phase of the pipeline. In the
     universe, the dynamics of the star cluster and the dynamics of the
     interactions of planets around the containing stars are, of course, happening
     simultaneously. However, the dynamics of stars in a cluster are changing much
@@ -295,9 +301,11 @@ and frequencies of the destructive events encountered.
         \includegraphics[width=4.0in]{encounter_distance_frequency}
     \end{figure}
 
-    \subsection{Planetary System Simulation}
+    \subsubsection{Planetary System Simulation}
 
-    From the N-Body simulation, a list of star encounters for any number of 
+    The second stage of pipeline uses the cluster encounter data to do
+    detailed analysis of individual encounters.
+    From the cluster simulation, a list of star encounters for any number of 
     clusters may be generated. The next step is to read these encounters and
     simulate just the two stars involved for each in isolated from the 
     environment. In addition, planets are added around both stars in the
@@ -362,25 +370,53 @@ and frequencies of the destructive events encountered.
         \end{tabular}
     \end{figure}
 
-    \subsection{Analysis}
+    \subsubsection{Data Analysis}
 
-    The final phase of the pipeline is to actually analyze the encounter data 
+    The final stage of the pipeline is to actually analyze the encounter data 
     output by the previous simulations. After a few days of running simulations,
     we are able to obtain nearly one-thousand close encounters simulated
     for analysis. The database constructed for this process allows all of the
     simulations to be quickly read in and related back to their originating clusters.
 
     There are numerous potentially interesting trends or situations to look for in
-    the output. One very simple analysis we performed was to look at the output
+    the output some of which are beyond the scope we explored. 
+    
+    One very simple analysis we performed was to look at the output
     eccentricities. Since all planets were given $e=0$ initial orbits, any deviation
-    from zero in the output is an effect of the interaction.
+    from zero in the output is an effect of the interaction. This shows not only the
+    approximate amount an orbit was disturbed, it shows planets that were ejected
+    from their original system.
 
     %Some analysis pictures
 
+    \begin{figure}[H]
+        \centering
+        \caption{Final orbit eccentricity frequencies for all planets 
+            after the two systems interact. The frequency scale is logarithmic.
+            There were an additional 216 planets that were ejected from their
+            systems or captured by the other system. These are not included.}
+        \includegraphics[width=4in]{eccentricity_final}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{Closest approaches of all Earth and Jupiter planets after 
+            the encounter that have not escaped. On both plots, there is a peak
+            at the unperturbed orbital distance (5.1 AU for Jupiter, 1.0 AU for
+            Earth) and then a tail of closer and farther approaches representing
+            orbits that were more severely perturbed. Jupiter planets below 1.0 AU
+            come into the inner planet orbits and could continue to interact further.
+            The extreme close orbits potentially could become Hot Jupiters after
+            orbit decay.
+        }
+        \begin{tabular}{cc}
+            \includegraphics[width=3.25in]{jupiter_distance_final} &
+            \includegraphics[width=3.25in]{earth_distance_final}
+        \end{tabular}
+    \end{figure}
+
 
 \section{Results}
-
-    %Data management
 
     %Runtime considerations
 
@@ -456,6 +492,8 @@ observation of these pair planets may provide reason to search for a Hot Jupiter
 nearer the star.
 Further long-term simulation would be needed to see if the highly eccentric Jupiter
 orbit could decay into a more circular orbit similar to many observed Hot Jupiters.
+
+    %TODO: Talk about long term simualation, orbit stabilization and orbit decay.
 
 \clearpage
 
