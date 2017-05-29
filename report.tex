@@ -77,6 +77,8 @@ experiments.
 
 \section{Introduction}
 
+\subsection{Theory}
+
 In the study of exoplanets, one interesting class of planets are the so-called "Hot Jupiters" -- planets with a mass near that of Jupiter 
 that have orbits of very small radius around their host star, generally with little eccentricity.
 Hot Jupiters are interesting as their orbits approach very close to the host star,
@@ -196,7 +198,7 @@ and frequencies of the destructive events encountered.
 
     Our approach was entirely computational in nature. We developed a collection of tools
     and utilities utilizing the popular Python programming language and making use
-    of the AMUSE (Astrophysical Multipurpose Software Environment) library \footnote{The AMUSE library can be found at http://www.amusecode.org/}. 
+    of the AMUSE (Astrophysical Multipurpose Software Environment) library \footnote{The AMUSE library can be found at http://www.amusecode.org/. See references [5]-[8]}. 
 
     AMUSE provides the underlying gravitational simulation methods, with many different
     integrators and utilities for different needs. With AMUSE, we were able to 
@@ -332,22 +334,44 @@ and frequencies of the destructive events encountered.
     simulate all of the clusters.
 
     In figure \ref{fig:encounter_distance}, we see the spectrum of closest approach
-    distances observed in all encounters within the simulated clusters. The
+    distances observed in all encounters within the 1000-star clusters. The
     distribution is biased slightly toward the more distant encounters, which
     are the least likely to cause planetary effects. In this sample of data, there are
-    646 total encounters with a closest approach distance under than 30 AU, 
-    out of 13114 total
-    encounters. This is just under 5\% of total encounters recorded.
-
-    %TODO: Blah
+    57,351 total encounters with a closest approach distance under than 30 AU, 
+    out of 1,831,075 total encounters. 
+    This is just over 3\% of total encounters recorded.
 
     \begin{figure}[H]
         \centering
-        \caption{Closest approach of all recorded encounters in 30 cluster simulations.
-            For our purposes, we are primarily interested in those below 30 AU.
+        \caption{Closest approach of all recorded encounters in 800 1000-star cluster 
+            simulations and 200 4000-star clusters. The larger clusters have more close
+            encounters than the small ones.
+            For Jupiter-Earth simulations, we are primarily interested in 
+            those below 30 AU. For Neptune-Earth, we want those less than 100 AU.
         }
         \label{fig:encounter_distance}
-        \includegraphics[width=4.0in]{encounter_distance_frequency}
+        \begin{tabular}{cc}
+            \includegraphics[width=3.25in]{encounter_distance_frequency_n1000} &
+            \includegraphics[width=3.25in]{encounter_distance_frequency_n4000}
+        \end{tabular}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \caption{Encounter statistics from the three sizes of clusters run.
+            The total number of encounters observed as well as the number within
+            two thresholds is listed.}
+
+        \begin{tabular}{|cccc|}
+            \hline
+            \textbf{Cluster Size} & \textbf{\# Encounters} & \textbf{\# Below 100 AU} 
+                & \textbf{\# Below 30 AU} \\
+            \hline
+            1000 & 1,831,075 & 198,952 (10.89 \%) & 57,351 (3.13 \%) \\
+            2000 & 1,896,763 & 327,972 (17.29 \%) & 92,461 (4.87 \%) \\
+            4000 & 1,869,983 & 534,999 (28.61 \%) & 144,231 (7.71 \%) \\
+            \hline
+        \end{tabular}
     \end{figure}
 
     \subsubsection{Planetary System Simulation}
@@ -404,12 +428,12 @@ and frequencies of the destructive events encountered.
     interaction to manually analyze some of the particularly interesting 
     encounters.
 
+    We analyzed 55,000 close encounters for each cluster size. 
     Figure \ref{fig:planet_simulations} illustrates two examples of close encounter
-    events. These two examples are chosen from the 646 %TODO: Update numbers 
-    simulations
+    events. These two examples are chosen from the thousands of simulations
     that were run in the database. The large hyperbolic trajectories are the 
     two stars interacting while the helices around them are the planets. In these
-    interactions, the stars approach extremely close, within 2 AU n both cases, and
+    interactions, the stars approach extremely close, within 2 AU in both cases, and
     the planets are significantly affected. These two samples represent only
     a snapshot of the full set of interactions that occur within the simulations.
 
@@ -432,52 +456,28 @@ and frequencies of the destructive events encountered.
     we are able to obtain nearly one-thousand %TODO: Number, update
     close encounters simulated
     for analysis. The database constructed for this process allows all of the
-    simulations to be quickly read in and related back to their originating clusters.
+    encounters to be loaded and related back to their originating clusters.
 
     There are numerous potentially interesting trends or situations to look for in
     the output, some of which are beyond the scope we explored. 
     
-    One very simple analysis we performed was to look at the output
+    One very simple analysis we perform is to look at the output
     eccentricities. Since all planets were given $e=0$ initial orbits, any deviation
     from zero in the output is an effect of the interaction. This shows not only the
     approximate amount an orbit was disturbed, it also shows planets that were ejected
-    from their original system.
+    from their original system. Additionally, by computing the eccentricity between
+    each planet and \textit{both} stars, we are able to determine how many planets are captured
+    by the approaching star.
 
-
-\section{Results}
-
-    \begin{figure}[H]
-        \centering
-        \caption{Final orbit eccentricity frequencies for all planets 
-            after the two systems interact. The frequency scale is logarithmic.
-            There were an additional 216 planets that were ejected from their
-            systems or captured by the other system. These are not included.}
-        \includegraphics[width=4in]{eccentricity_final}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \caption{Closest approaches of all Earth and Jupiter planets after 
-            the encounter that have not escaped. On both plots, there is a peak
-            at the unperturbed orbital distance (5.1 AU for Jupiter, 1.0 AU for
-            Earth) and then a tail of closer and farther approaches representing
-            orbits that were more severely perturbed. Jupiter planets below 1.0 AU
-            come into the inner planet orbits and could continue to interact further.
-            The extreme close orbits potentially could become Hot Jupiters after
-            orbit decay.
-        }
-        \begin{tabular}{cc}
-            \includegraphics[width=3.25in]{jupiter_distance_final} &
-            \includegraphics[width=3.25in]{earth_distance_final}
-        \end{tabular}
-    \end{figure}
-
-
-    %Runtime considerations
-
-    %Future?
+    A second analysis is to look at the final periastron for all planets that are still
+    gravitationally bound (that is, final $e<1$). Jupiters with a periastron
+    of only a fraction of an AU are prime candidates to become Hot Jupiters. Additionally
+    any significant periastron change in the Earth may have significant consequences
+    to the sustainability of life.
 
 \section{Data Pipeline and Storage}
+
+    \subsection{Database}
 
     One pervasive problem in running a large number of simulations for analysis is
     that there is a large amount of data created and all of this data needs to be
@@ -527,6 +527,140 @@ and frequencies of the destructive events encountered.
     It is our hope is not only that this makes our data analysis tasks easier, but
     that it is usable by future researchers who want to perform similar experiments.
 
+    \subsection{Analysis}
+
+    As hundreds of thousands of encounter simulation results can be stored
+    in the database, and a few kilobytes of data is stored for each, 
+    it can take as long as a half-hour to load, parse process each set of 100,000 results.
+    In order to promote modularity, each analysis should be able to run independently
+    of all others, but running each analysis independently over all the data would result
+    in as much as an order of magnitude slow down as the data would be parsed again and
+    again.
+
+    To remedy that problem without losing modularity, the analysis module takes a
+    set of analysis tasks to run. Each analysis task has a coroutine that accepts a
+    single encounter result at a time, and incrementally processes that data into 
+    its isolated state. This technique (called an "online algorithm") allows any number
+    of analyses to be performed in one pass over the input data. The complexity of writing
+    an analysis using this approach is slightly higher, and requires code be written
+    to understand this model, but the end result is a fast and modular processing framework.
+
+\section{Results}
+
+    To draw conclusions and generate plots, we used exactly 55,000 close encounters from
+    each set of parameters.
+
+    We first analyze the final planet eccentricities. Figure \ref{fig:eccentricies} shows
+    the resulting spectrum of eccentricity values after the simulation. The eccentricity
+    values are divided into 100 bins, each 0.01 wide. The top pair
+    of plots is for 1000-star clusters, followed by 2000-star and 4000-star clusters.
+    The green plots show Earths while the blue plots show Jupiters. The Jupiters are
+    clearly more easily perturbed than the Earths, however a measurable number of Earths,
+    at least a few hundred, are perturbed to have an eccentricity greater than 0.5. In both
+    cases, the vast majority of planets are hardly perturbed at all, with tens of thousands
+    of final states having $e<0.1$.
+
+    \begin{figure}[H]
+        \centering
+        \caption{Final orbit eccentricity frequencies for the planets 
+            after the two systems interact. The left plots are for the Earth and the right
+            are for the Jupiter. The frequency scale is base-10 logarithmic.
+            Planets that were ejected from their systems are not included.
+        }
+        \label{fig:eccentricies}
+
+        \begin{tabular}{cc}
+            \includegraphics[width=3.25in]{eccentricity_earth_1000} &
+            \includegraphics[width=3.25in]{eccentricity_jupiter_1000} \\
+
+            \includegraphics[width=3.25in]{eccentricity_earth_2000} &
+            \includegraphics[width=3.25in]{eccentricity_jupiter_2000} \\
+
+            \includegraphics[width=3.25in]{eccentricity_earth_4000} &
+            \includegraphics[width=3.25in]{eccentricity_jupiter_4000}
+        \end{tabular}
+    \end{figure}
+
+    Figure \ref{fig:periastron} shows the final distributions of closest approaches.
+    The top plots are 1000-star clusters, while the bottom are 4000-star clusters.
+    There is a decrease in very close periastron distance with increasing cluster size,
+    especially in the Earths. We find several hundred Jupiters with a periastron less than
+    0.1 AU.
+
+    %TODO: Zoom
+
+    \begin{figure}[H]
+        \centering
+        \caption{Closest approaches of all Earth and Jupiter planets after 
+            the encounter that have not escaped. On all plots, there is a peak
+            at the unperturbed orbital distance (5.1 AU for Jupiter, 1.0 AU for
+            Earth) and then a tail of closer approaches representing
+            orbits that were more severely perturbed. Jupiter planets below 1.0 AU
+            come into the inner planet orbits and could continue to interact further.
+            The extremely close orbits potentially could become Hot Jupiters after
+            orbit decay.
+        }
+        \label{fig:periastron}
+        \begin{tabular}{cc}
+            \includegraphics[width=3.25in]{periastron_earth_1000} &
+            \includegraphics[width=3.25in]{periastron_jupiter_1000} \\
+
+            \includegraphics[width=3.25in]{periastron_earth_4000} &
+            \includegraphics[width=3.25in]{periastron_jupiter_4000} \\
+        \end{tabular}
+    \end{figure}
+
+    \begin{figure}[H]
+        \caption{Periastron of Earth vs Jupiter for all encounters
+            in each cluster group where neither planet escaped.
+        }
+        \centering
+        \includegraphics[width=5in]{evj_peri_earth_jupiter_1000} 
+        \includegraphics[width=5in]{evj_peri_earth_jupiter_2000} 
+        \includegraphics[width=5in]{evj_peri_earth_jupiter_4000} 
+    \end{figure}
+
+    \begin{figure}[H]
+        \caption{Eccentricity of Earth vs Jupiter for all encounters
+            in each cluster group where neither planet escaped.
+        }
+        \centering
+        \includegraphics[width=5in]{evj_ecc_earth_jupiter_1000} 
+        \includegraphics[width=5in]{evj_ecc_earth_jupiter_4000} 
+    \end{figure}
+
+    \begin{table}[H]
+        \centering
+        \caption{Final states of Jupiter planets.
+        }
+        \begin{tabular}{|llll|}
+            \hline
+            \textbf{Cluster Size} & \textbf{Remaining Planets} & \textbf{Ejected Planets} & \textbf{Captured Planets} \\
+            \hline
+            1000 & 48,957 & 6,721 & 1,673 \\
+            2000 & 46,925 & 6,528 & 1,548 \\
+            4000 & 47,146 & 6,343 & 1,511 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \begin{table}[H]
+        \centering
+        \caption{Final states of Earth planets.
+        }
+        \begin{tabular}{|llll|}
+            \hline
+            \textbf{Cluster Size} & \textbf{Remaining Planets} & \textbf{Ejected Planets} & \textbf{Captured Planets} \\
+            \hline
+            1000 & 55,725 & 1,289 & 377 \\
+            2000 & 53,489 & 1,229 & 282 \\
+            4000 & 53,413 & 1,299 & 288 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    %Future?
+
 \section{Conclusion}
 
 We explored a potential formation scenario for the formation of Hot Jupiter
@@ -554,11 +688,11 @@ orbit could decay into a more circular orbit similar to many observed Hot Jupite
 
 \begin{thebibliography}{9}
 
-\bibitem{James B. Pollack et al. 1996}
+\bibitem{Pollack et al. 1996}
 James B. Pollack, Olenka Hubickyj, Peter Bodenheimer, Jack J. Lissauer, Morris Podolak, Yuval Greenzweig, Formation of the Giant Planets by Concurrent Accretion of Solids and Gas, Icarus, Volume 124, Issue 1, 1996, Pages 62-85, ISSN 0019-1035, http://dx.doi.org/10.1006/icar.1996.0190.
 (http://www.sciencedirect.com/science/article/pii/S0019103596901906)
 
-\bibitem{A. Brucalassi, 2016}
+\bibitem{Brucalassi, 2016}
 A.  Brucalassi, L.  Pasquini, R.  Saglia, M. T.  Ruiz, P.  Bonifacio, I.  Leão, B. L.  Canto Martins, J. R.  de Medeiros, L. R.  Bedin, K.  Biazzo, C.  Melo, C.  Lovis, S.  Randich,
 Search for giant planets in M67 - III. Excess of hot Jupiters in dense open clusters
 A\&A 592 L1 (2016)
@@ -569,17 +703,14 @@ Foreman-Mackey, D., Morton, T.~D., Hogg, D.~W., Agol, E., \& Sch{\"o}lkopf, B.\ 
 
 \bibitem{Shara et al. 2014} Shara, M.~M., Hurley, J.~R., \& Mardling, R.~A.\ 2014, arXiv:1411.7061 
 
-%
-%
 %	"HopInterface"
-%		Eisenstein, DJ, Hut, P, HOP: A new group-finding algorithm for N-body simulations, ApJ 498 (1998)
-%
-%
-%	"AMUSE"
-%		** Portegies Zwart, S. et al., 2013, Multi-physics Simulations Using a Hierarchical Interchangeable Software Interface, Computer Physics Communications 183, 456-468 [2013CoPhC.183..456P]
-%		** Pelupessy, F. I. et al., 2013, The Astrophysical Multipurpose Software Environment, Astronomy and Astrophysics 557, 84 [2013A&A...557A..84P]
-%		Portegies Zwart, S. et al., 2009, A multiphysics and multiscale software environment for modeling astrophysical systems, *New Astronomy*, **Volume 14**, **Issue 4**, 369-378 [2009NewA...14..369P]
-%
+\bibitem{Eisenstein, Hut} Eisenstein, DJ, Hut, P, HOP: A new group-finding algorithm for N-body simulations, ApJ 498 (1998)
+% "AMUSE"
+\bibitem{Portegies Zwart} Portegies Zwart, S. et al., 2013, Multi-physics Simulations Using a Hierarchical Interchangeable Software Interface, Computer Physics Communications 183, 456-468 [2013CoPhC.183..456P]
+		
+\bibitem{Pelupessy et al. 2013} Pelupessy, F. I. et al., 2013, The Astrophysical Multipurpose Software Environment, Astronomy and Astrophysics 557, 84 [2013A\&A...557A..84P]
+\bibitem{Portegis et al. 2009} Portegies Zwart, S. et al., 2009, A multiphysics and multiscale software environment for modeling astrophysical systems, *New Astronomy*, **Volume 14**, **Issue 4**, 369-378 [2009NewA...14..369P]
+
 \end{thebibliography}
 
 \end{document}
