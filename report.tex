@@ -41,7 +41,7 @@
         Department of Physics \\
         Drexel University \\
         Philadelphia, PA, United States\\
-        26th of May, 2017 
+        30th of May, 2017 
     \end{center}
 \end{titlepage}
 
@@ -52,7 +52,7 @@
 \section{Abstract}
 
 "Hot Jupiters" (HJs) are large planets that orbit very close to their host star. 
-They appear to occur quite frequently in the universe, with approximately 1\% 
+They appear to occur relatively frequently in the universe, with approximately 1\% 
 of sun-like solar systems predicted to contain one (Brucalassi et al. 2016). 
 However, the mechanism that causes these planets to have such extreme orbital parameters
 is not fully understood. 
@@ -63,7 +63,7 @@ we will attempt to probe what happens over vast periods of time
 in star clusters similar to those found within the Galaxy.
 We will run detailed simulations of close stellar encounters within these clusters
 and observe the resulting state of the systems after the stars have separated. Many
-of these system are then stored and computationally analyzed. 
+of these system are then computationally analyzed.
 As a result of these simulations, 
 we hope to observe the formation of Hot Jupiter-like orbits that
 match observational data as well as determine how common an occurrence they are.
@@ -94,15 +94,15 @@ the universe, but rather most gas giants are seen in a similar orbit. %TODO: Ver
 The Hot Jupiters seen in the universe, however, have orbital 
 radii of only fractions of an AU, potentially 
 approaching their star closer than even Mercury in our own solar system. %TODO: Expand on planet formation theory.
-This is well beyond the accretion disk, and there must, then, be a difference between
-the "average" Jupiter planet such as what is found in our solar system, and these
-extreme Hot Jupiters.
+This is well beyond the accretion disk; therefore, the formation mechanism of Hot Jupiters
+must be somehow different from that of "average" Jupiter planets, such as the one in our
+solar system.
 
 The mode of formation for Hot Jupiters is not fully understood.
 Despite this, and their rather exotic orbits, 
 they appear to be somewhat common within the universe as observations and previous models place the occurrence of Hot Jupiters at around 1\% of all solar systems (A. Brucalassi et al. 2016).  
 
-A likely aspect of the formation of these Hot Jupiters is that they are not formed in place, but rather form much like normal gas giant planets 
+A reasonable hypothesis for the formation of these Hot Jupiters is that they are not formed in place, but rather form much like normal gas giant planets 
 in a gas and dust accretion disk beyond the ice line. They then migrate to their final close orbit sometime later after their formation. 
 In order for the Hot Jupiter to move into a close orbit after it is formed, some sort of interaction must occur to change the orbital parameters. 
 Disk migration theory postulates that the accretion of gases and 
@@ -113,25 +113,28 @@ This is thus a potential mechanism for the creation of these Hot Jupiters, but i
 
 New stars in the Galaxy generally form not as isolated individuals but rather in groups of stars
 that then gravitationally interact to form a cluster.
-Within one of these star cluster, there are times when two stellar systems approach very close
+Within one of these star clusters, there are times when two stellar systems approach very close
 to one another. Depending on the closeness of the approach, the effects of such
 an interaction may very. An encounter at a distance of a few hundred AU will likely disturb the trajectory
 of the two stars in the short term, but is unlikely to have other significant effects. However,
 if the two stars come close enough that the approaching star's gravitational attraction
 overwhelms that of the host star, the planets around each star may have their orbits
 highly disturbed. In this case, more distantly orbiting planets, such as the gas giants,
-have a greater chance of being disturbed than the inner planets, like Earth, as the two 
-interacting stars do not need to get as close to affect the planet.
+have a greater chance of being disturbed than the inner planets, as the two 
+interacting stars do not need to get as close to affect the planetary orbits.
 
 This gravitational "push" could also have many effects on the unlucky planets caught in the
-middle. One likely outcome is that the orbit is made more eccentric but otherwise
+middle. One likely outcome is that the planet's orbit is made more eccentric but otherwise
 mostly unchanged. Additionally, the planet could be ejected from the planetary system,
-or be caught by the approaching star. A third possibility is that a Jupiter-like planet
-from the outer solar system is thrown into an orbit that approaches much closer to the
+or be captured by the approaching star -- orbiting it instead of the original host star
+after the encounter is complete. A third possibility is that a Jupiter-like planet
+from the outer solar system is thrown into an eccentric 
+orbit that approaches much closer to the
 star. In such a case, the orbit right after the interaction should have a highly
 eccentric orbit, even if it passes close to the host star. Orbital decay due to tidal
 friction over long
 timescales would be required to "circularize" such orbits into something more regular.
+%TODO: TIDAL
 
 Additionally, the inward movement of the larger gas planet could affect other
 inner planets of the solar system during its transit. This can
@@ -239,8 +242,6 @@ and frequencies of the destructive events encountered.
     be used to verify the validity of the simulations with observation and to make
     predictions about these events in the universe.
 
-    %TODO: Describe binary orbital parameters.
-
     \subsubsection{Cluster N-Body Simulation}
 
     The N-Body simulation code is the first phase of the pipeline. In the
@@ -262,9 +263,6 @@ and frequencies of the destructive events encountered.
     encounters more distant than this leave almost no visible impact on the
     interacting systems. 
 
-    %Since we only care about the fate of planets during one of these 
-    %rare close encounters,
-    %the clusters created for these simulations are composed entirely of planet-less stars.
     The clusters created for this simulation are composed of one-thousand, two-thousand
     or four-thousand stars. For all three cases, the masses of all stars are set equally
     to $M = 1 M_{\astrosun}$. The simulations are run for a time directly proportional
@@ -282,16 +280,13 @@ and frequencies of the destructive events encountered.
     effects, we are generally uninterested in the majority of these encounters, however
     we choose to record all of these encounters for later filtering based on the
     planets being studied.
-    %For example, if in the future we were to add Neptune-like
-    %planets into the planetary systems, orbiting around 30 AU from the sun, we would
-    %be interested in more distant encounters than when using a Jupiter as the most
-    %outer planet.
 
     The clusters generated for the simulation are uniquely created each time at the
     beginning of the simulation using a pseudo-random number generator. 
-    The star properties are sampled from a
+    The star properties are sampled from a standard statistical model for globular
+    clusters called a
     %TODO: Reference
-    King Model with a fixed $W_0=3.0$. %TODO: Mass Stuff
+    King Model, with a fixed parameter $W_0=3.0$. 
     All stars added to the cluster are given a fixed mass $M=M_{\astrosun}$ and do not
     include any binary star systems.     
 
@@ -610,34 +605,72 @@ and frequencies of the destructive events encountered.
         \end{tabular}
     \end{figure}
 
+    To determine how much of an effect Jupiter migration had on the fate of the
+    Earths, we plot the periastron of the two planet classes together. There is a
+    very clear trend showing that relatively few Earths are perturbed significantly
+    when the corresponding Jupiter is not perturbed significantly. However, once the 
+    Jupiter migrates to within less than about two AU of the star, the corresponding Earth
+    has a much larger chance to be perturbed. Furthermore, there is a clear trend
+    showing that as the Jupiter periastron gets closer to the star, on average, so does
+    the periastron of the Earth. By the time Jupiter comes closer than 1 AU 
+    from the star, the Earth rarely survives unharmed.
+
+    Interestingly, as the mass of the cluster increases, the Earths appear to be
+    less strongly affected by the Jupiter migration. Figure \ref{fig:periastron}
+    shows that the average frequency of close Jupiters does not significantly decrease
+    in these more massive clusters, while the frequency of close Earths decreases
+    by as much as half an order of magnitude in the closest cases.
+
     \begin{figure}[H]
         \caption{Periastron of Earth vs Jupiter for all encounters
-            in each cluster group where neither planet escaped.
+            in each cluster group where neither planet escaped. From the top,
+            the plots are for 1000-, 2000- and 4000-star clusters.
         }
         \centering
+        \label{fig:evj_peri}
         \includegraphics[width=5in]{evj_peri_earth_jupiter_1000} 
         \includegraphics[width=5in]{evj_peri_earth_jupiter_2000} 
         \includegraphics[width=5in]{evj_peri_earth_jupiter_4000} 
     \end{figure}
 
+    Looking at the correlation of eccentricities of the final Earth
+    and Jupiter systems, we see similar trends. In the 1000-star clusters,
+    more high eccentricity Earths are in systems with high eccentricity Jupiters.
+    Additionally, there appears to be a "bulge" around $e=0.5$ for the Jupiter
+    where a large number of Earths are at least partially affected.
+
+    Again, as with the periastron plots, we see many fewer high eccentricity
+    Earths, though the general correlation between Earth and Jupiter periastron still
+    exists.
+
     \begin{figure}[H]
         \caption{Eccentricity of Earth vs Jupiter for all encounters
-            in each cluster group where neither planet escaped.
+            in each cluster group where neither planet escaped.The top
+            plot is with 1000-star clusters while the bottom is with 4000-star
+            clusters.
         }
         \centering
         \includegraphics[width=5in]{evj_ecc_earth_jupiter_1000} 
         \includegraphics[width=5in]{evj_ecc_earth_jupiter_4000} 
     \end{figure}
 
+    One final interesting analysis is to look at ejections and captures of planets.
+    An ejection can be easily detected by searching for an $e \ge 1.0$ for a planet
+    around both stars, whereas a capture can be detected by looking for $e \ge 1.0$ in
+    the host star but $e < 1.0$ in the approaching star.
+
+    We see over 10\% of all Jupiters are ejected, and around 2.5 \% of Earths are
+    as well. Captures are a bit rarer, but they still occur with an appreciable
+    frequency. The size of the cluster seems to have no effect on these statistics.
+
     \begin{table}[H]
         \centering
-        \caption{Final states of Jupiter planets.
-        }
+        \caption{Final states of Jupiter planets. Each row sums to 55,000.}
         \begin{tabular}{|llll|}
             \hline
             \textbf{Cluster Size} & \textbf{Remaining Planets} & \textbf{Ejected Planets} & \textbf{Captured Planets} \\
             \hline
-            1000 & 48,957 & 6,721 & 1,673 \\
+            1000 & 46,935 & 6,472 & 1,593 \\
             2000 & 46,925 & 6,528 & 1,548 \\
             4000 & 47,146 & 6,343 & 1,511 \\
             \hline
@@ -646,13 +679,12 @@ and frequencies of the destructive events encountered.
 
     \begin{table}[H]
         \centering
-        \caption{Final states of Earth planets.
-        }
+        \caption{Final states of Earth planets. Each row sums to 55,000.}
         \begin{tabular}{|llll|}
             \hline
             \textbf{Cluster Size} & \textbf{Remaining Planets} & \textbf{Ejected Planets} & \textbf{Captured Planets} \\
             \hline
-            1000 & 55,725 & 1,289 & 377 \\
+            1000 & 53,427 & 1,245 & 328 \\
             2000 & 53,489 & 1,229 & 282 \\
             4000 & 53,413 & 1,299 & 288 \\
             \hline
