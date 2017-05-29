@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
 \usepackage{graphicx}
+\usepackage{wasysym}
 \usepackage{float}
 \usepackage [english]{babel}
 \usepackage [autostyle, english = american]{csquotes}
@@ -51,22 +52,22 @@
 \section{Abstract}
 
 "Hot Jupiters" (HJs) are large planets that orbit very close to their host star. 
-They appear to be somewhat commonly occurring in the universe, with approximately 1\% 
-of sun-like solar systems predicted to contain one (A. Brucalassi et al. 2016). 
+They appear to occur quite frequently in the universe, with approximately 1\% 
+of sun-like solar systems predicted to contain one (Brucalassi et al. 2016). 
 However, the mechanism that causes these planets to have such extreme orbital parameters
 is not fully understood. 
 We aim to explore the role that star-planet and planet-planet gravitational interactions 
 within a star cluster may have in producing Hot 
 Jupiters. By using computational simulations of "typical" star clusters,
 we will attempt to probe what happens over vast periods of time
-in star clusters similar to those found within the observable universe.
+in star clusters similar to those found within the Galaxy.
 We will run detailed simulations of close stellar encounters within these clusters
 and observe the resulting state of the systems after the stars have separated. Many
-of these system may then be stored and computationally analyzed. 
+of these system are then stored and computationally analyzed. 
 As a result of these simulations, 
 we hope to observe the formation of Hot Jupiter-like orbits that
-match observational data as well as determine how common an occurrence.
-Additionally, we will observe what other damage might 
+match observational data as well as determine how common an occurrence they are.
+Additionally, we can observe what other damage might 
 persist within the planetary orbits of the system that can be used as 
 observational evidence for this formation scenario. Finally, we will
 produce a collection of code which may be used in the future to perform similar
@@ -76,46 +77,49 @@ experiments.
 
 \section{Introduction}
 
-In the study of exoplanets, one interesting class of planets are the so-called "Hot Jupiters" -- planets with a mass near that of Jupiter -- that have a 
-very small radius orbit around their host star. 
+In the study of exoplanets, one interesting class of planets are the so-called "Hot Jupiters" -- planets with a mass near that of Jupiter 
+that have orbits of very small radius around their host star, generally with little eccentricity.
 Hot Jupiters are interesting as their orbits approach very close to the host star,
 despite the fact that most Jupiter-mass planets are believed to form much farther
 out -- in the accretion disk of the forming planetary system where gases 
-and other diffuse material can aggregate to form the new planet. If we look at our own
+and other diffuse material can aggregate to form a new planet. If we look at our own
 solar system, we see that Jupiter orbits at around 5.2 Astronomical Units (AU) from the
-sun, where one AU is approximately the average orbital distance of the Earth. Indeed,
+sun, where one AU is the average orbital distance of the Earth. Indeed,
 we see a very large gap between the orbits of the inner, small and rocky planets, and
 the outer gas planets, of which Jupiter is the nearest. Jupiter is not an anomaly of
-the universe, but rather most gas giants are seen in a similar orbit. 
+the universe, but rather most gas giants are seen in a similar orbit. %TODO: Verify me
 
 The Hot Jupiters seen in the universe, however, have orbital 
 radii of only fractions of an AU, potentially 
-approaching their star closer than even Mercury in our own solar system.
+approaching their star closer than even Mercury in our own solar system. %TODO: Expand on planet formation theory.
 This is well beyond the accretion disk, and there must, then, be a difference between
 the "average" Jupiter planet such as what is found in our solar system, and these
 extreme Hot Jupiters.
 
-The mode of formation for these Hot Jupiters is not fully understood.
+The mode of formation for Hot Jupiters is not fully understood.
 Despite this, and their rather exotic orbits, 
 they appear to be somewhat common within the universe as observations and previous models place the occurrence of Hot Jupiters at around 1\% of all solar systems (A. Brucalassi et al. 2016).  
 
 A likely aspect of the formation of these Hot Jupiters is that they are not formed in place, but rather form much like normal gas giant planets 
-in a gas accretion disk beyond the ice line. They then migrate to their final close orbit sometime later after their formation. 
+in a gas and dust accretion disk beyond the ice line. They then migrate to their final close orbit sometime later after their formation. 
 In order for the Hot Jupiter to move into a close orbit after it is formed, some sort of interaction must occur to change the orbital parameters. 
 Disk migration theory postulates that the accretion of gases and 
-solids during the planet's formation process also slowly alters the orbital 
+solids during the planet's formation process can slowly alter the orbital 
 parameters of the planet,
 pushing the planet inward towards the star.
 This is thus a potential mechanism for the creation of these Hot Jupiters, but is not the end of the story.
 
-Within a star cluster, there are times when two stellar systems approach very close
+New stars in the Galaxy generally form not as isolated individuals but rather in groups of stars
+that then gravitationally interact to form a cluster.
+Within one of these star cluster, there are times when two stellar systems approach very close
 to one another. Depending on the closeness of the approach, the effects of such
-an interaction may very. A few hundred AU encounter will likely disturb the trajectory
-of the two stars in the short term, and most of the encounters will end here. However,
-if the two stars become close enough that the approaching star's gravitational attraction
-overtakes that of the host star, the planets around each star may have their orbits
-highly disturbed. In this case, more distantly orbiting planets, such as the gas giants
-have a greater chance to disturbed than the inner planets like Earth.
+an interaction may very. An encounter at a distance of a few hundred AU will likely disturb the trajectory
+of the two stars in the short term, but is unlikely to have other significant effects. However,
+if the two stars come close enough that the approaching star's gravitational attraction
+overwhelms that of the host star, the planets around each star may have their orbits
+highly disturbed. In this case, more distantly orbiting planets, such as the gas giants,
+have a greater chance of being disturbed than the inner planets, like Earth, as the two 
+interacting stars do not need to get as close to affect the planet.
 
 This gravitational "push" could also have many effects on the unlucky planets caught in the
 middle. One likely outcome is that the orbit is made more eccentric but otherwise
@@ -123,24 +127,27 @@ mostly unchanged. Additionally, the planet could be ejected from the planetary s
 or be caught by the approaching star. A third possibility is that a Jupiter-like planet
 from the outer solar system is thrown into an orbit that approaches much closer to the
 star. In such a case, the orbit right after the interaction should have a highly
-eccentric orbit, even if it passes close to the host star. Orbital decay over long
+eccentric orbit, even if it passes close to the host star. Orbital decay due to tidal
+friction over long
 timescales would be required to "circularize" such orbits into something more regular.
 
 Additionally, the inward movement of the larger gas planet could affect other
-inner planets of the solar system during its transit. This would similarly 
+inner planets of the solar system during its transit. This can
 cause the inner planet orbits to become more eccentric and could move
 these planets closer or farther from the star depending on the details of the
 interaction, or even eject them out of the system. Should this occur,
-then another "pair" planet could be formed in the same system. This "pair" planet 
-would likely also end up with an eccentric orbit. Pair planet formation would leave
+then another "pair" planet could be formed in the same system which has its orbit
+disturbed by the migration of the gas giant rather than from the stellar encounter. 
+This "pair" planet 
+would likely also end up with an eccentric orbit like the outer planet. Pair planet formation would leave
 a second long-term impact on the system, which may provide additional observational
-evidence for this kind of interaction having taken place.
+evidence for this kind of migration having taken place.
 
-Such an interaction also holds importance for the fate of the affected Earth-like planets.
+Such an interaction also holds importance for the fate of Earth-like planets.
 A planet formerly in the habitable zone of a star could be knocked into a far less
 forgiving orbit, leading to likely fatal effects on life. Additionally, a
 large planet in an eccentric orbit that passes within the inner planetary orbits,
-even if it does not perturb these planets right away, might lead to later chance
+even if it does not perturb these planets right away, might cause later chance
 encounters between the planets that lead to orbital changes.
 
 %TODO: Revise first sentences.
@@ -150,11 +157,11 @@ we are able to probe the gravitational dynamics of these star system
 interactions over several thousand years of physical time 
 in time scales much more relevant to human lifespan. We will simulate
 a large number of these interactions, building up a database of information about
-the initial and final states of the systems. From this data, we may perform large
+the initial and final states of the systems. Using this data, we perform large
 scale analyses, finding potential Hot Jupiter formation events, as well as other
 significant perturbations to the planetary orbits.
 
-By having a large database of encounter information, we may also looks for commonalities
+By having a large database of encounter information, we also look for commonalities
 and frequencies of the destructive events encountered. 
 
 %TODO: Finish this
@@ -163,23 +170,25 @@ and frequencies of the destructive events encountered.
 
     An important set of information for analyzing the behavior of the stellar and
     planetary dynamics are the orbital elements that mathematically 
-    characterize their relative motion. 
-    For our purpose, we are most interested in the eccentricity $e$ and the
+    characterize the motion of the planet relative to the host star. 
+    For our purposes, we are most interested in the eccentricity $e$ and the
     semimajor axis $a$. The eccentricity describes how "long" the orbit is, $e=0$
     is a perfectly circular orbit whereas $0<e<1$ are elliptical orbits of increasingly
-    oblong shape. $e>1$ define hyperbolic orbits where bodies are no longer
+    oblong shape. Eccentricities $e>1$ define hyperbolic orbits where bodies are no longer
     gravitationally bound. Additionally, these two pieces of information allow us to 
     compute the closest and farthest points of a bound orbit by two simple relations.
 
-    The pericenter or closest distance is defined as:
+    The pericenter or closest distance is:
     \begin{equation}
         r_{per} = (1 - e) a
     \end{equation}
-    Whereas the apocenter or farthest distance is defined as:
+    Whereas the apocenter or farthest distance is:
     \begin{equation}
         r_{apo} = (1 + e) a
     \end{equation}
 
+    The pericenter particularly will allow us to characterize orbit migration where a
+    planet moves closer or farther from the host star.
 
 \section{Methods}
 
@@ -187,23 +196,21 @@ and frequencies of the destructive events encountered.
 
     Our approach was entirely computational in nature. We developed a collection of tools
     and utilities utilizing the popular Python programming language and making use
-    of the AMUSE (Astrophysical Multipurpose Software Environment) library. 
-    %TODO: Verify how to write the name
+    of the AMUSE (Astrophysical Multipurpose Software Environment) library \footnote{The AMUSE library can be found at http://www.amusecode.org/}. 
 
     AMUSE provides the underlying gravitational simulation methods, with many different
     integrators and utilities for different needs. With AMUSE, we were able to 
     setup our problem and tell AMUSE to return to our code for encounter events and
-    let AMUSE handle the rest. Additionally, AMUSE provides these features in high
+    let AMUSE handle the rest. Additionally, AMUSE provides these features using high
     performance C++ and Fortran kernels, allowing us to focus on functionality without
     worry about the gravitational simulation details.
 
-    N-body gravitational simulations with high accuracy and over long time scales requires
+    N-body gravitational simulations with high accuracy and over long time scales require
     a significant amount of computationally expensive numerical integration of the 
     forces involved in the experiment. In order to exploit the parallel nature of 
     the simulations, our code was run mostly on the Draco computer 
     cluster at Drexel University. This cluster provides 24 connected nodes, each containing
-    a significant number of CPU cores as well as a few GPUs. Utilizing this cluster,
-    we were able to run many simulations in parallel.
+    12 CPU cores as well as 4-6 GPUs. Utilizing this cluster, we were able to run many simulations in parallel.
 
     \subsection{Simulation}
 
@@ -220,13 +227,13 @@ and frequencies of the destructive events encountered.
     is placed into the simulation with the same dynamic parameters as in the cluster,
     and planets are added around each. A much shorter gravitational simulation is then
     run, allowing the systems to approach, interact and later separate. The final
-    state of the two systems are recorded for the next phase.
+    states of the two systems are recorded for the next phase.
 
     The final phase is to analyze the data generated from the previous simulations.
     Many simulations are run in order to develop a diverse profile of interactions.
     At this stage, we look for interesting encounters and related patterns, 
     what sorts of effects are most common,
-    and the approximate frequency of certain outcomes. From here, the results could
+    and the approximate frequency of certain outcomes. From here, the results can
     be used to verify the validity of the simulations with observation and to make
     predictions about these events in the universe.
 
@@ -240,24 +247,27 @@ and frequencies of the destructive events encountered.
     simultaneously. However, the dynamics of stars in a cluster are changing much
     more slowly than those of the planets because of the much larger distances
     involved. While a planet can fully rotate about a star in less than a year,
-    only a handful of stars pass close to one another in a megayears. Accurately
+    only a handful of stars pass close to one another in a megayear. Accurately
     simulating planets around stars within a star cluster would require
     far more computation time, and most of this would be wasted simulating
     planets normally orbiting their host star far away from any other stars.
 
     The gravitational effects of an external star on a planet's orbit only
-    causes noticeable orbital effects if the star comes very close (within 10-20AU)
-    of the planet itself. This means that a Jupiter-like planet with an orbit around
+    causes noticeable orbital effects if the star comes within a few times the
+    planet's orbital semimajor axis. This means that a Jupiter-like planet with an orbit around
     5 AU would only potentially be perturbed by a star that comes within 
     approximately 30 AU of the host star. Indeed, experimentally, we observe that
     encounters more distant than this leave almost no visible impact on the
     interacting systems. 
 
-    Since we only care about the fate of planets during one of these 
-    rare close encounters,
-    the clusters created for these simulations are composed entirely of planet-less stars.
-    Each gravitational simulation of a cluster is performed for between 50 
-    and a few hundred megayears. During the simulation, any time two stars
+    %Since we only care about the fate of planets during one of these 
+    %rare close encounters,
+    %the clusters created for these simulations are composed entirely of planet-less stars.
+    The clusters created for this simulation are composed of one-thousand, two-thousand
+    or four-thousand stars. For all three cases, the masses of all stars are set equally
+    to $M = 1 M_{\astrosun}$. The simulations are run for a time directly proportional
+    to the size, 250 Myr, 500 Myr and 1000 Myr respectively.  During the simulations, 
+    any time two stars
     come close enough to strongly interact, the simulation is briefly halted so that
     the dynamical and orbital parameters can be recorded. The simulation is then
     resumed and this process repeats. At the end, a file is generated with
@@ -269,23 +279,29 @@ and frequencies of the destructive events encountered.
     this distance itself and notifies the simulation when this occurs. For planetary
     effects, we are generally uninterested in the majority of these encounters, however
     we choose to record all of these encounters for later filtering based on the
-    planets being studied. For example, if in the future we were to add Neptune-like
-    planets into the planetary systems, orbiting around 30 AU from the sun, we would
-    be interested in more distant encounters than when using a Jupiter as the most
-    outer planet.
+    planets being studied.
+    %For example, if in the future we were to add Neptune-like
+    %planets into the planetary systems, orbiting around 30 AU from the sun, we would
+    %be interested in more distant encounters than when using a Jupiter as the most
+    %outer planet.
 
     The clusters generated for the simulation are uniquely created each time at the
     beginning of the simulation using a pseudo-random number generator. 
     The star properties are sampled from a
+    %TODO: Reference
     King Model with a fixed $W_0=3.0$. %TODO: Mass Stuff
-    All stars added to the cluster are given a fixed mass $M=M_{sun}$ and do not
-    include any binary star systems. The number
-    of stars in the cluster were varied between 1000 and 10000. 
+    All stars added to the cluster are given a fixed mass $M=M_{\astrosun}$ and do not
+    include any binary star systems.     
 
-    \begin{figure}[h]
+    \begin{figure}[H]
         \centering
-        \caption{Two clustered generated and used for simulation superimposed.}
-        \includegraphics[width=4.0in]{cluster_superimposed.png}
+        \caption{Two 2000-star clusters generated and simulated. The left plot
+            shows the clusters at the start of the simulation. The right plot shows
+            the same two clusters after 500 Myr of simulation time.}
+        \begin{tabular}{cc}
+            \includegraphics[width=3.0in]{clusters_superimposed_n_2000} &
+            \includegraphics[width=3.0in]{clusters_superimposed_final_n_2000}
+        \end{tabular}
     \end{figure}
 
     Each 100 megayears of simulation time for one of these clusters yields a
@@ -301,10 +317,24 @@ and frequencies of the destructive events encountered.
     the orbital elements, are saved along with the encounter data for the later
     stages to use.
 
+    Each of the three cluster sizes are simulated for the same total number of years.
+    For the smallest configuration, one-thousand stars simulated for 250 megayears, 
+    800 total clusters were simulated. For the two larger configurations, 400 and 200
+    clusters were simulated respectively. All cluster simulations results are systematically 
+    saved independently with information about the status and parameters of the run.
+    This allows for taking subsets or samples of the data in the next stage, while still
+    being easy to use all the results at once.
+
+    The cluster simulations in this step require a considerable amount of clock time to perform,
+    and the time required tends to increase by a factor of four for each doubling of the
+    number of stars and simulation time. The 4000-star clusters each required around 60 to 120 minutes
+    to perform. Even running up to twenty clusters at once, it required a few days to 
+    simulate all of the clusters.
+
     In figure \ref{fig:encounter_distance}, we see the spectrum of closest approach
-    distances observed in all encounters within thirty cluster simulations. The
-    distribution is weighted more heavily toward the more distant encounters, which
-    will mostly be unused in later stages. In this sample of data, there are
+    distances observed in all encounters within the simulated clusters. The
+    distribution is biased slightly toward the more distant encounters, which
+    are the least likely to cause planetary effects. In this sample of data, there are
     646 total encounters with a closest approach distance under than 30 AU, 
     out of 13114 total
     encounters. This is just under 5\% of total encounters recorded.
@@ -327,7 +357,7 @@ and frequencies of the destructive events encountered.
     From the cluster simulation, a list of star encounters for any number of 
     clusters may be generated. The next step is to read these encounters and
     simulate just the two stars involved for each in isolated from the 
-    environment. In addition, planets are added around both stars in the
+    environment. In addition, planets are placed in orbit around both stars in the
     encounter before they are added to the simulation. The initial positions,
     velocities and physical parameters of the stars are identical to what they
     were at the moment AMUSE identified them as interacting. 
@@ -343,76 +373,74 @@ and frequencies of the destructive events encountered.
     one hundred encounters, but most of these encounters are completely uninteresting
     in their planetary dynamics. So for these simulations, the list of encounters is 
     first filtered so "uninteresting" interactions are removed. For an Earth-Jupiter
-    system, a closest approach of 30 AU was chosen as the farthest limit to be
+    system, a closest approach of 30 AU was chosen as the farthest periastron to be
     worth considering. With this cut in place, only ten to twenty encounters, on
     average, are left per 100 megayears of cluster simulation.
 
     %TODO: If more distant planets added, 30 AU limit must increase.
 
-    Each individual two-system simulation requires between five to ten 
-    minutes of wall time to run on the computational cluster. This can be
-    parallelized easily and we were able to run between ten and thirty 
-    simulations at once. With the 30 AU cut, this was a very manageable 
-    simulation rate and allowed all relevant encounters in a cluster simulation
-    within 30 minutes in most cases.
+    Each individual two-system simulation requires only twenty to thirty
+    seconds of clock time to run on the computational cluster. This can be
+    parallelized easily and we were able to run as many as fifty
+    planetary simulations at once. With the 30 AU cut, all relevant encounters 
+    in a single cluster simulation can be simulated within ten minutes.
 
     The planets added to the stars were kept consistent throughout, thus 
-    each star in each simulation was made to have one Earth and one Jupiter planet
-    orbiting it with the approximate physical and orbital
+    each star in each simulation was made to have one Earth and one Jupiter
+    orbiting with the approximate physical and orbital
     parameters as the respective planets in our solar system. 
     In this way, all variation will occur through variations in the clusters, not
     the planetary systems.
     All planets are
-    placed in a perfectly circular orbit ($e=0$), which makes it easy to analyze
+    placed in circular orbits (with $e=0$), making it easy to analyze
     any changes after the interaction.
     %TODO: Orbital planes
 
     When the simulation is finished, the data important for later analysis is
-    saved for later use. The most important of this data is the starting and ending
-    orbital elements, as well as the initial final positions of each of the bodies.
-    Additionally, the trajectory of all bodies as they approach one another are
-    saved in detail. This information is useful for replaying or plotting the
-    interaction to perform manual analysis on some particularly interesting 
+    saved. The most important of this data is the starting and ending
+    orbital elements, as well as the initial and final positions of each of the bodies.
+    Additionally, the trajectory of all bodies may be saved in detail. 
+    The trajectories are useful for replaying an individual encounter or plotting the
+    interaction to manually analyze some of the particularly interesting 
     encounters.
 
     Figure \ref{fig:planet_simulations} illustrates two examples of close encounter
-    events. These two examples are chosen from the 646 simulations
+    events. These two examples are chosen from the 646 %TODO: Update numbers 
+    simulations
     that were run in the database. The large hyperbolic trajectories are the 
     two stars interacting while the helices around them are the planets. In these
-    interactions, the stars approach extremely close, within 2 AU on both, and
+    interactions, the stars approach extremely close, within 2 AU n both cases, and
     the planets are significantly affected. These two samples represent only
     a snapshot of the full set of interactions that occur within the simulations.
 
     \begin{figure}[H]
         \centering
-        \caption{Two examples of close encounter events. On the left, we see
-            an ejection of two planets from the systems. On the right, one planet
+        \caption{Two examples of close encounter events. On the top, we see
+            an ejection of two planets from the systems. On the bottom, one planet
             in the first system is captured by the second and approaches 
             within 0.5 AU of the star. In both cases, the
             orbits of the remaining planets become more eccentric.
         }
-        \label{fig:planet_simulations}
-        \begin{tabular}{cc}
-            \includegraphics[width=3in]{1_67_AU_zoom} &
-            \includegraphics[width=3in]{1.4AU/1_4_AU_encounter_plot}
-        \end{tabular}
+        \includegraphics[width=5in]{1_67_AU_zoom}
+        \includegraphics[width=5in]{1.4AU/1_4_AU_encounter_plot}
     \end{figure}
 
     \subsubsection{Data Analysis}
 
     The final stage of the pipeline is to actually analyze the encounter data 
     output by the previous simulations. After a few days of running simulations,
-    we are able to obtain nearly one-thousand close encounters simulated
+    we are able to obtain nearly one-thousand %TODO: Number, update
+    close encounters simulated
     for analysis. The database constructed for this process allows all of the
     simulations to be quickly read in and related back to their originating clusters.
 
     There are numerous potentially interesting trends or situations to look for in
-    the output some of which are beyond the scope we explored. 
+    the output, some of which are beyond the scope we explored. 
     
     One very simple analysis we performed was to look at the output
     eccentricities. Since all planets were given $e=0$ initial orbits, any deviation
     from zero in the output is an effect of the interaction. This shows not only the
-    approximate amount an orbit was disturbed, it shows planets that were ejected
+    approximate amount an orbit was disturbed, it also shows planets that were ejected
     from their original system.
 
 
@@ -478,7 +506,7 @@ and frequencies of the destructive events encountered.
     The initial and final parameters of each body in the simulation are stored, along
     with trajectories for the particles during the encounter. When all simulations
     in some cluster are complete, overall statistics about which encounters were
-    simulated and which were skipped due to data cuts.
+    simulated and which were skipped due to data cuts are generated.
 
     In each of these processes, the program first creates a "lock" file before it
     writes any data to the database. This lock file signifies that the cluster or
