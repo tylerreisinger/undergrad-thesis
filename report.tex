@@ -228,7 +228,8 @@ and frequencies of the destructive events encountered.
     parameters of the close encounters to run more detailed simulations in isolation
     later.
 
-    The second phase is running those detailed simulations. A pair of interacting stars
+    The second phase is running detailed simulations on the "close encounters". 
+    A pair of interacting stars
     is placed into the simulation with the same dynamic parameters as in the cluster,
     and planets are added around each. A much shorter gravitational simulation is then
     run, allowing the systems to approach, interact and later separate. The final
@@ -302,7 +303,7 @@ and frequencies of the destructive events encountered.
     \end{figure}
 
     Each 100 megayears of simulation time for one of these clusters yields a
-    few hundred encounters on average. The close encounters given to our by 
+    few hundred encounters on average. The close encounters given to us by 
     AMUSE are based on the distance of the two stars at the time in the simulation
     when the two stars first get close enough to interact, around 400 AU.
     Since we are interested in planetary effects, only events where the stars
@@ -334,7 +335,7 @@ and frequencies of the destructive events encountered.
     are the least likely to cause planetary effects. In this sample of data, there are
     57,351 total encounters with a closest approach distance under than 30 AU, 
     out of 1,831,075 total encounters. 
-    This is just over 3\% of total encounters recorded.
+    This is just over 3\% of total encounters recorded. %Talk about Neptune
 
     \begin{figure}[H]
         \centering
@@ -342,7 +343,7 @@ and frequencies of the destructive events encountered.
             simulations and 200 4000-star clusters. The larger clusters have more close
             encounters than the small ones.
             For Jupiter-Earth simulations, we are primarily interested in 
-            those below 30 AU. For Neptune-Earth, we want those less than 100 AU.
+            those below 30 AU. 
         }
         \label{fig:encounter_distance}
         \begin{tabular}{cc}
@@ -530,9 +531,13 @@ and frequencies of the destructive events encountered.
     In order to promote modularity, each analysis should be able to run independently
     of all others, but running each analysis independently over all the data would result
     in as much as an order of magnitude slow down as the data would be parsed again and
-    again.
+    again. However, on the opposite side, throwing all analyses into a single function or
+    module makes it very difficult for future scientists to define their own analyses
+    without understanding everything already done or replacing it all entirely. 
+    Additionally, it becomes extremely difficult for multiple people to collaboratively
+    write analyses.
 
-    To remedy that problem without losing modularity, the analysis module takes a
+    To remedy the problem without losing modularity, the analysis module takes a
     set of analysis tasks to run. Each analysis task has a coroutine that accepts a
     single encounter result at a time, and incrementally processes that data into 
     its isolated state. This technique (called an "online algorithm") allows any number
