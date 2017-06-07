@@ -2,6 +2,7 @@
 \usepackage{graphicx}
 \usepackage[english]{babel}
 \usepackage{etoolbox}
+\usepackage{wasysym}
 \usepackage[autostyle, english=american]{csquotes}
 \MakeOuterQuote{"}
 
@@ -13,6 +14,7 @@
 \date{}
 
 \begin{document}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
 \begin{frame}
     \maketitle
@@ -22,7 +24,6 @@
     \begin{figure}
         \centering
         \includegraphics[height=1.25in]{Image1_HotJupiter1}
-        %\caption{Artistic interpretation of an HJ around a star. Image: Haven Giguere, Nikku Madhusudhan}
     \end{figure}
 \end{frame}
 
@@ -135,13 +136,28 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Code}
+\begin{frame}{Periapsis}
     \begin{itemize}
-        \item Simulations are built with the AMUSE astrophysics library for python.
+        \item Periapsis -- The point of closest approach of two orbiting bodies.
+        \item Distance at periapsis is distance of closest approach.
+        \item Easily computed from orbital elements:
+            \begin{equation}
+                r_{per} = (1 - e) a
+            \end{equation}
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.75in]{periapsis_diag}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Environment \& Code}
+    \begin{itemize}
+        \item Simulations are built atop the AMUSE astrophysics library.
         \item Run on Drexel's Draco computing cluster.
         \item 24 node shared between all users.
         \begin{itemize}
-            \item Three GPUs on most nodes
+            \item Three to six GPUs on each node
             \item 12 core CPUs
         \end{itemize}
         \begin{figure}
@@ -153,16 +169,33 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Simulation Framework}
+    \begin{itemize}
+        \item AMUSE does the gravitational dynamics in highly efficient code.
+        \item Our python code sits on top
+        \begin{itemize}
+            \item Setup the simulation initial state
+            \item Send the full setup to AMUSE
+            \item Let AMUSE run the simulation
+            \item Periodically pause the simulation to observe the state
+                \begin{itemize}
+                    \item AMUSE may also send us notifications about close encounters
+                        as it runs.
+                \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Star Cluster Simulation}
     \begin{itemize}
-        \item Planets only affected by very close ($\le $30 AU) encounters.
+        \item Jupiter-mass planets are only affected by very close ($\le $30 AU) encounters.
         \item Time scale between these interactions is long.
             \begin{itemize}
-                \item About 1 encounter per 100,000 years
+                \item About 1 encounter per 0.1 Myr
             \end{itemize}
         \item Time scale for planetary orbits are short.
             \begin{itemize}
-                \item Earth orbits the sun in 1 year.
+                \item Earth orbits the sun in 0.001 Myr.
             \end{itemize}
         \item Simulating planets in the cluster would require much more
             computation than just stars.
@@ -179,10 +212,11 @@
         \item Don't waste resources simulating stable planet orbits.
         \item Allows much more detailed simulation for strong encounters
             without slowing everything down.
+        \item The data can be reused with different configurations of planets.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Pipeline}
+\begin{frame}{Data Pipeline}
     \begin{enumerate}
         \item Star Cluster N-Body simulations
             \begin{itemize}
@@ -202,7 +236,6 @@
     \end{enumerate}
 \end{frame}
 
-
 \begin{frame}{Star Cluster Simulation Approach}
     \begin{itemize}
         \item Run many gravitational simulations of star clusters.
@@ -220,12 +253,25 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Star Cluster Simulation Approach}
+\begin{frame}{Star Cluster Setup}
     \begin{itemize}
         \item King Model with $W_0 = 3.0$.
-        \item Clusters of a few thousand stars are created and simulated.
-        \item Each star has fixed $M = 1 M_{sun}$.
-        \item Let AMUSE run the simulation, call back into user code for close
+            \begin{itemize}
+                \item Sampled randomly to create a cluster.
+            \end{itemize}
+        \item Clusters of 1000, 2000 and 4000 stars.
+        \item Run for 250, 500, 1000 Myr, respectively.
+        \item Each star has fixed $M = 1 M_{\astrosun}$.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[height=1.5in]{cluster_superimposed.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Star Cluster Simulation}
+    \begin{itemize}
+        \item Let AMUSE simulate a cluster, call back into user code for close
             stellar encounters.
         \item Compute and record:
             \begin{itemize}
@@ -233,27 +279,49 @@
                 \item Orbital parameters $(a, e, r)$
                 \item Distance of closest encounter
             \end{itemize}
-        \begin{figure}
-            \centering
-            \includegraphics[height=1.5in]{cluster_superimposed.png}
-        \end{figure}
     \end{itemize}
+    \begin{figure}
+        \begin{tabular}{cc}
+            \includegraphics[height=2.0in]{clusters_superimposed_n_2000} &
+            \includegraphics[height=2.0in]{clusters_superimposed_final_n_2000}
+        \end{tabular}
+    \end{figure}
 
 \end{frame}
 
-\begin{frame}{Encounter Results}
-    \begin{itemize}
-        \item For 32 cluster simulations of around 100 Myr each: 
+\begin{frame}{Encounters}
+    \begin{columns}
+        \column{0.5\textwidth}
             \begin{itemize}
-                \item There were 13,114 total encounters returned by AMUSE.
-                \item Closest encounter distance ranges between 0 and 400 AU.
-                \item Just under 5.0 \% of encounters are close enough to be
-                    considered for planetary encounters ($<$ 30 AU).
+                \item For 1000 star clusters...
+                    \begin{itemize}
+                        \item 1,000 total clusters simulated.
+                        \item 250 Myr each.
+                        \item 1,831,075 encounters returned between 0 and 500 AU periastron.
+                        \item 57,351 encounters at 30 AU or less.
+                            \begin{itemize}
+                                \item This is the most distant approach considered for Jupiters.
+                            \end{itemize}
+                    \end{itemize}
             \end{itemize}
+        \column{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \caption{Histogram of closest approach distance of two stars in 1000 star cluster.}
+                \includegraphics[width=2.25in]{encounter_distance_frequency_n1000}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Encounters}
+    \begin{itemize}
+        \item For clusters with 4,000 stars, there were more close encounters.
     \end{itemize}
     \begin{figure}
-        \center
-        \includegraphics[width=2.5in]{encounter_distance_frequency}
+        \centering
+        \caption{1000 vs 4000 star clusters}
+        \includegraphics[width=2.25in]{encounter_distance_frequency_n1000} \\
+        \includegraphics[width=2.25in]{encounter_distance_frequency_n4000}
     \end{figure}
 \end{frame}
 
