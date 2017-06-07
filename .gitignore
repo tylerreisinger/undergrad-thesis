@@ -1,4 +1,3 @@
-*.pdf
 *.snm
 *.sw?
 *.swo
@@ -7,3 +6,4 @@
 *.out
 *.toc
 *.nav
+*.gif
