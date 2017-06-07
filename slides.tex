@@ -15,6 +15,10 @@
 
 \begin{document}
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
+%\setbeamertemplate{sidebar right}{}
+%\setbeamertemplate{footline}{\hspace{1in} Slide \insertframenumber{}}
+\addtobeamertemplate{navigation symbols}{}{ \hspace{1em}    \usebeamerfont{footline}%
+    \insertframenumber / \inserttotalframenumber }
 
 \begin{frame}
     \maketitle
@@ -286,7 +290,6 @@
             \includegraphics[height=2.0in]{clusters_superimposed_final_n_2000}
         \end{tabular}
     \end{figure}
-
 \end{frame}
 
 \begin{frame}{Encounters}
@@ -315,7 +318,7 @@
 
 \begin{frame}{Encounters}
     \begin{itemize}
-        \item For clusters with 4,000 stars, there were more close encounters.
+        \item For clusters with more stars, close encounters were more frequent.
     \end{itemize}
     \begin{figure}
         \centering
@@ -325,18 +328,25 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Stage 2 -- Planetary Simulations}
+\begin{frame}{Phase 2 -- Planetary Simulations}
     \begin{itemize}
-        \item Take the cluster encounter data and run detailed simulations.
-        \item Each simulation has 2 stars and 4 planets
-        \begin{itemize}
-            \item Initialize stars from encounter parameters.
-            \item Ignore distant encounters.
-            \item Add some planets, currently an Earth and Jupiter.
-            \item Let the simulation run until the encounter is over.
-            \item Store trajectories of all bodies.
-            \item Store final state of both systems.
-        \end{itemize}
+        \item Take the star encounter data and run detailed simulations.
+        \item Each simulation has 2 stars and 4 planets:
+            \begin{itemize}
+            \item Earth, Jupiter
+            \item Earth, Neptune
+            \end{itemize}
+        \item Stop the simulation when the stars are far apart.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Planetary Simulations}
+    \begin{itemize}
+        \item Initialize stars from observed encounters.
+        \item Filter out distant encounters.
+        \item Add desired planets.
+        \item Let the simulation run until the encounter is over.
+        \item Store final state of both planetary systems.
     \end{itemize}
     \begin{figure}
         \centering
@@ -369,11 +379,11 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Stage 2 -- Planetary Simulations}
+\begin{frame}{Planetary Simulations}
     \begin{itemize}
         \item These simulations generate a lot of data.
             \begin{itemize}
-                \item A lot to analyze by hand.
+                \item Prohibitively slow to analyze by hand.
                 \item If anything needs changed, everything would have to be
                     repeated.
             \end{itemize}
@@ -387,31 +397,59 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Parallelism}
+\begin{frame}{Cluster Simulation Performance}
     \begin{itemize}
-        \item Each cluster sim yields 20-50 close encounters.
-        \item Each close encounter simulation takes 5-10 minutes to
-            complete.
-        \item Our goal is to have over 1,000 encounters, that would take
-            more than 120 hours to do in sequence!
+        \item Need a few hundred thousand stars * Myr for each configuration.
+        \item Simulating a single 4,000 star cluster for 1000 Myr requires up to 4 hours
+            to run.
+        \item Ran about 200 of these clusters to get enough encounters.
+        \item A naive approach would require around 800 hours to complete just the 4,000
+            star clusters!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Planet Simulation Performance}
+    \begin{itemize}
+        \item Require about 30 seconds each.
+        \item Far more numerous -- 55,000 total simulations.
+        \item In series, this would require approximately 400 hours.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Parallelism}
     \begin{columns}
-    \column{0.67\textwidth}
+    \column{0.60\textwidth}
         \begin{itemize}
             \item Each simulation is independent of all others.
-            \item Each node of Draco has 12 processing "cores".
+            \item Each node of Draco has many processing "cores".
             \item Running many simulations in parallel can reduce
                 time required dramatically.
         \end{itemize}
-    \column{0.33\textwidth}
+    \column{0.40\textwidth}
         \begin{figure}
             \centering
-            \includegraphics[width=1.5in]{multicore}
+            \includegraphics[width=2.0in]{multicore}
         \end{figure}
     \end{columns}
+\end{frame}
+
+\begin{frame}{Parallelism Results}
+    \begin{itemize}
+        \item Cluster Simulations
+            \begin{itemize}
+                \item 3-6 per node.
+                \item Run over 6 nodes.
+                \item About 25 simultaneous simulations.
+                \item Time reduced to $\approxeq$ 3 days for largest clusters.
+            \end{itemize}
+        \item Planetary Simulations
+            \begin{itemize}
+                \item 8 per node.
+                \item Run over 6 nodes.
+                \item About 50 simultaneous simulations.
+                \item Time reduced to $\approxeq$ 24 hours.
+            \end{itemize}
+    \end{itemize}
 \end{frame}
 
 % Database stuff
@@ -426,31 +464,89 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Results -- Eccentricity}
+\begin{frame}{Results: Eccentricity}
     \begin{itemize}
         \item All planets are initialized to have zero eccentricity.
-        \item Any eccentricity at the end is a sign of orbit changes.
         \item Higher eccentricities correlate to larger changes.
         \item Eccentricities $\ge 1.0$ imply a planet escaped from its
             original system.
+            \begin{itemize}
+                \item These aren't included on the plot.
+            \end{itemize}
     \end{itemize}
     \begin{figure}
         \centering
-        \includegraphics[height=1.75in]{eccentricity_final}
+        \includegraphics[height=1.75in]{eccentricity_jupiter_1000.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Results -- Eccentricity}
+\begin{frame}{Results: Eccentricity}
     \begin{figure}
         \centering
-        \includegraphics[height=1.75in]{eccentricity_final}
+        \includegraphics[height=1.75in]{eccentricity_earth_1000.png}
     \end{figure}
     \begin{itemize}
         \item Most planets are relatively unaffected by the encounter.
         \item As eccentricity gets more extreme, frequency decreases.
         \item Some planets are thrown into highly eccentric orbits.
-        \item About 250 planets escaped (have eccentricity $> 1$) and are not included.
+        \item Jupiters are much more affected than Earths.
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Results: Eccentricity}
+    \begin{columns}
+    \column{0.33\textwidth}
+        \begin{itemize}
+            \item Cluster size does not significantly affect eccentricity distribution
+        \end{itemize}
+    \column{0.66\textwidth}
+        \begin{figure}
+            \includegraphics[height=1.00in]{eccentricity_jupiter_1000.png} \\
+            \includegraphics[height=1.00in]{eccentricity_jupiter_2000.png} \\
+            \includegraphics[height=1.00in]{eccentricity_jupiter_4000.png}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Results: Periastron}
+    \begin{itemize}
+        \item Jupiter gets close to its star $\approxeq 3$ times more frequently than Earth.
+    \end{itemize}
+    \begin{tabular}{cc}
+        \includegraphics[height=1.20in]{periastron_jupiter_1000.png} &
+        \includegraphics[height=1.20in]{periastron_earth_1000.png}
+    \end{tabular}
+\end{frame}
+
+\begin{frame}{Results: Periastron}
+    \begin{itemize}
+        \item Larger clusters have fewer close planets.
+    \end{itemize}
+    \begin{columns}
+    \column{0.33\textwidth}
+        \begin{itemize}
+            \item A
+        \end{itemize}
+    \column{0.66\textwidth}
+        \begin{figure}
+            \includegraphics[height=1.00in]{periastron_jupiter_1000.png} \\
+            \includegraphics[height=1.00in]{periastron_jupiter_4000.png}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Results: Periastron}
+    \begin{columns}
+    \column{0.33\textwidth}
+        \begin{itemize}
+            \item A
+        \end{itemize}
+    \column{0.66\textwidth}
+        \begin{figure}
+            \includegraphics[height=1.00in]{periastron_earth_1000.png} \\
+            \includegraphics[height=1.00in]{periastron_earth_4000.png}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Results -- Hot Jupiter Formation}
