@@ -116,7 +116,7 @@
     \end{itemize}
     \begin{figure}
         \centering
-        \includegraphics[height=1.5in]{orbital_elems}
+        \includegraphics[height=1.75in]{orbital_elems}
     \end{figure}
 
 \end{frame}
@@ -134,7 +134,7 @@
     \end{description}
     \begin{figure}
         \centering
-        \includegraphics[height=1.2in]{eccentricity}
+        \includegraphics[height=1.3in]{eccentricity}
     \end{figure}
 \end{frame}
 
@@ -206,7 +206,7 @@
             computation than just stars.
     \end{itemize}
     \begin{figure}
-        \includegraphics[height=1.5in]{star_cluster.jpg}
+        \includegraphics[height=1.5in]{cluster1.png}
     \end{figure}
 \end{frame}
 
@@ -244,20 +244,25 @@
 \section{Pipeline}
 
 \begin{frame}{Star Cluster Simulation Approach}
-    \begin{itemize}
-        \item Run many gravitational simulations of star clusters.
-            \begin{itemize}
-                \item Each cluster has the same set of parameters.
+    \begin{columns}
+    \column{0.5\textwidth}
+        \begin{itemize}
+            \item Run many gravitational simulations of star clusters.
                 \begin{itemize}
-                    \item Number of Stars
-                    \item Mass distribution
+                    \item Each cluster has the same set of parameters.
+                    \begin{itemize}
+                        \item Number of Stars
+                        \item Mass distribution
+                    \end{itemize}
                 \end{itemize}
-            \end{itemize}
-        \item Catalog encounter parameters of all close star-star encounters.
+            \item Catalog encounter parameters of all close star-star encounters.
+        \end{itemize}
+    \column{0.5\textwidth}
         \begin{figure}
-            \includegraphics[height=1.5in]{cluster1.png}
+            \centering
+            \includegraphics[width=2.25in]{slides/cluster_n4000.png}
         \end{figure}
-    \end{itemize}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Star Cluster Setup}
@@ -313,8 +318,7 @@
         \column{0.5\textwidth}
             \begin{figure}
                 \centering
-                \caption{Histogram of closest approach distance of two stars in 1000 star cluster.}
-                \includegraphics[width=2.25in]{encounter_distance_frequency_n1000}
+                \includegraphics[width=2.25in]{slides/encounter_distance_1000}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -325,9 +329,8 @@
     \end{itemize}
     \begin{figure}
         \centering
-        \caption{1000 vs 4000 star clusters}
-        \includegraphics[width=2.25in]{encounter_distance_frequency_n1000} \\
-        \includegraphics[width=2.25in]{encounter_distance_frequency_n4000}
+        \includegraphics[width=2.25in]{slides/encounter_distance_1000} \\
+        \includegraphics[width=2.25in]{slides/encounter_distance_4000}
     \end{figure}
 \end{frame}
 
@@ -548,10 +551,14 @@
     \begin{itemize}
         \item Jupiter gets close to its star $\approxeq 3$ times more frequently than Earth.
     \end{itemize}
-    \begin{tabular}{cc}
-        \includegraphics[height=1.20in]{periastron_jupiter_1000.png} &
-        \includegraphics[height=1.20in]{periastron_earth_1000.png}
-    \end{tabular}
+    \begin{figure}
+        \centering
+        \caption{Jupiter vs Earth, N=1000}
+        \begin{tabular}{cc}
+            \includegraphics[height=1.20in]{periastron_jupiter_1000.png} &
+            \includegraphics[height=1.20in]{periastron_earth_1000.png}
+        \end{tabular}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Results: Periastron, Jupiter}
@@ -571,8 +578,13 @@
 \begin{frame}{Results: Periastron, Earth}
     \begin{columns}
     \column{0.33\textwidth}
+        \begin{itemize}
+            \item The effect is more dramatic for Earths.
+        \end{itemize}
     \column{0.66\textwidth}
         \begin{figure}
+            \centering
+            \caption{N=1000 vs N=4000}
             \includegraphics[height=1.20in]{periastron_earth_1000.png} \\
             \includegraphics[height=1.20in]{periastron_earth_4000.png}
         \end{figure}
