@@ -15,8 +15,7 @@
 
 \begin{document}
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
-%\setbeamertemplate{sidebar right}{}
-%\setbeamertemplate{footline}{\hspace{1in} Slide \insertframenumber{}}
+\setbeamerfont{caption}{size=\scriptsize}
 \addtobeamertemplate{navigation symbols}{}{ \hspace{1em}    \usebeamerfont{footline}%
     \insertframenumber / \inserttotalframenumber }
 
@@ -30,6 +29,12 @@
         \includegraphics[height=1.25in]{Image1_HotJupiter1}
     \end{figure}
 \end{frame}
+
+\begin{frame}{Overview}
+    \tableofcontents
+\end{frame}
+
+\section{Background}
 
 \begin{frame}{Hot Jupiters}
     \begin{columns}
@@ -66,7 +71,7 @@
                 \begin{itemize}
                     \item Does the migration of the HJ affect other planetary orbits?
                     \item Are terrestrial planets in highly eccentric orbit a possible
-                        indicator of Hot Jupiter formation.  
+                        indicator of Hot Jupiter formation?
                 \end{itemize}
         \end{itemize} 
         \column{0.34\textwidth}
@@ -83,18 +88,12 @@
         \begin{itemize}
             \item Scattering Effects
                 \begin{itemize}
-                    \item HJs starts like a normal gas planet, but is perturbed inward.
+                    \item HJs start like normal gas planets, but are perturbed inward.
                     \item Perturbation may come from stellar interactions
                         within a star cluster.
-                        \begin{itemize}
-                            \item The star cluster may later dissolve, but the
-                                damaging effects of an interaction would still be present.
-                        \end{itemize}
                     \item This could cause other planets in the system to be
                         knocked into eccentric orbits by the HJ.
                         \begin{itemize}
-                            \item Such an event might leave an observable impact on the 
-                                planetary system.
                             \item If we understand what this might look like,
                                 we can look for it in the universe.
                         \end{itemize}
@@ -105,7 +104,6 @@
             \begin{figure}
                 \centering
                 \includegraphics[height=1.25in]{hot_jupiter_measure_plot}
-                %\caption{Artistic interpretation of an HJ around a star. Image: Haven Giguere, Nikku Madhusudhan}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -136,7 +134,7 @@
     \end{description}
     \begin{figure}
         \centering
-        \includegraphics[height=1.5in]{orbital_elems}
+        \includegraphics[height=1.2in]{eccentricity}
     \end{figure}
 \end{frame}
 
@@ -154,6 +152,8 @@
         \includegraphics[height=1.75in]{periapsis_diag}
     \end{figure}
 \end{frame}
+
+\section{Methods}
 
 \begin{frame}{Environment \& Code}
     \begin{itemize}
@@ -196,6 +196,7 @@
         \item Time scale between these interactions is long.
             \begin{itemize}
                 \item About 1 encounter per 0.1 Myr
+                \item Not all of these are interesting for planetary interactions.
             \end{itemize}
         \item Time scale for planetary orbits are short.
             \begin{itemize}
@@ -239,6 +240,8 @@
             \end{itemize}
     \end{enumerate}
 \end{frame}
+
+\section{Pipeline}
 
 \begin{frame}{Star Cluster Simulation Approach}
     \begin{itemize}
@@ -328,13 +331,12 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Phase 2 -- Planetary Simulations}
+\begin{frame}{Phase 2: Planetary Simulations}
     \begin{itemize}
         \item Take the star encounter data and run detailed simulations.
         \item Each simulation has 2 stars and 4 planets:
             \begin{itemize}
             \item Earth, Jupiter
-            \item Earth, Neptune
             \end{itemize}
         \item Stop the simulation when the stars are far apart.
     \end{itemize}
@@ -452,7 +454,7 @@
     \end{itemize}
 \end{frame}
 
-% Database stuff
+% Database stuff ?
 
 \begin{frame}{Analysis}
     \begin{itemize}
@@ -464,7 +466,9 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Results: Eccentricity}
+\section{Results}
+
+\begin{frame}{Results: Eccentricity, Jupiter}
     \begin{itemize}
         \item All planets are initialized to have zero eccentricity.
         \item Higher eccentricities correlate to larger changes.
@@ -480,7 +484,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Results: Eccentricity}
+\begin{frame}{Results: Eccentricity, Earth}
     \begin{figure}
         \centering
         \includegraphics[height=1.75in]{eccentricity_earth_1000.png}
@@ -501,11 +505,43 @@
         \end{itemize}
     \column{0.66\textwidth}
         \begin{figure}
-            \includegraphics[height=1.00in]{eccentricity_jupiter_1000.png} \\
-            \includegraphics[height=1.00in]{eccentricity_jupiter_2000.png} \\
-            \includegraphics[height=1.00in]{eccentricity_jupiter_4000.png}
+            \caption{Jupiter eccentricity spectrum for 1000, 2000 and 4000 star clusters.}
+            \includegraphics[height=0.90in]{eccentricity_jupiter_1000.png} \\
+            \includegraphics[height=0.90in]{eccentricity_jupiter_2000.png} \\
+            \includegraphics[height=0.90in]{eccentricity_jupiter_4000.png}
         \end{figure}
     \end{columns}
+\end{frame}
+
+\begin{frame}{Planet Ejection and Capture}
+    \begin{table}[H]
+        \centering
+        \tiny
+        \caption{Final states of Jupiter planets.}
+        \begin{tabular}{|llll|}
+            \hline
+            \textbf{Cluster Size} & \textbf{Remaining Planets} & \textbf{Ejected Planets} & \textbf{Captured Planets} \\
+            \hline
+            1000 & 46,935 & 6,472 & 1,593 \\
+            2000 & 46,925 & 6,528 & 1,548 \\
+            4000 & 47,146 & 6,343 & 1,511 \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \begin{table}[H]
+        \centering
+        \tiny
+        \caption{Final states of Earth planets.}
+        \begin{tabular}{|llll|}
+            \hline
+            \textbf{Cluster Size} & \textbf{Remaining Planets} & \textbf{Ejected Planets} & \textbf{Captured Planets} \\
+            \hline
+            1000 & 53,427 & 1,245 & 328 \\
+            2000 & 53,489 & 1,229 & 282 \\
+            4000 & 53,413 & 1,299 & 288 \\
+            \hline
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 \begin{frame}{Results: Periastron}
@@ -518,91 +554,92 @@
     \end{tabular}
 \end{frame}
 
-\begin{frame}{Results: Periastron}
-    \begin{itemize}
-        \item Larger clusters have fewer close planets.
-    \end{itemize}
+\begin{frame}{Results: Periastron, Jupiter}
     \begin{columns}
     \column{0.33\textwidth}
         \begin{itemize}
-            \item A
+            \item Larger clusters have fewer close planets.
         \end{itemize}
     \column{0.66\textwidth}
         \begin{figure}
-            \includegraphics[height=1.00in]{periastron_jupiter_1000.png} \\
-            \includegraphics[height=1.00in]{periastron_jupiter_4000.png}
+            \includegraphics[height=1.20in]{periastron_jupiter_1000.png} \\
+            \includegraphics[height=1.20in]{periastron_jupiter_4000.png}
         \end{figure}
     \end{columns}
 \end{frame}
 
-\begin{frame}{Results: Periastron}
+\begin{frame}{Results: Periastron, Earth}
     \begin{columns}
     \column{0.33\textwidth}
-        \begin{itemize}
-            \item A
-        \end{itemize}
     \column{0.66\textwidth}
         \begin{figure}
-            \includegraphics[height=1.00in]{periastron_earth_1000.png} \\
-            \includegraphics[height=1.00in]{periastron_earth_4000.png}
+            \includegraphics[height=1.20in]{periastron_earth_1000.png} \\
+            \includegraphics[height=1.20in]{periastron_earth_4000.png}
         \end{figure}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Pair Planets}
     \begin{itemize}
-        \item Does a close Jupiter cause more close Earths?
+        \item A close Jupiter greatly increases the chance of the Earth also being moved close.
     \end{itemize}
     \begin{figure}
-        \includegraphics[height=1.75in]{evj_peri_earth_jupiter_1000.png}
+        \includegraphics[height=2.20in]{evj_peri_earth_jupiter_1000.png}
+    \end{figure}
+\end{frame}
+\begin{frame}{Pair Planets}
+    \begin{itemize}
+        \item This effect diminishes somewhat as the cluster size increases.
+    \end{itemize}
+    \begin{figure}
+        \includegraphics[height=1.00in]{evj_peri_earth_jupiter_1000.png} \\
+        \includegraphics[height=1.00in]{evj_peri_earth_jupiter_2000.png} \\
+        \includegraphics[height=1.00in]{evj_peri_earth_jupiter_4000.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Results -- Hot Jupiter Formation}
+\begin{frame}{Pair Planets}
     \begin{itemize}
-        \item We may look at the closest approach of Jupiter after the encounter.
-        \item Jupiter originally orbits at 5.1 AU from the star.
-            \begin{itemize}
-                \item Without any encounter, there would be a single bin at 5.1 that
-                    all planets fit into.
-            \end{itemize}
-        \item Any closer encounter implies a "push" toward the star.
+        \item An eccentric Jupiter highly increases the likelihood of Earth being eccentric.
     \end{itemize}
     \begin{figure}
-        \centering
-        \includegraphics[height=1.75in]{jupiter_distance_final}
+        \includegraphics[height=2.20in]{evj_ecc_earth_jupiter_1000.png}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Results -- Hot Jupiter Formation}
+\section{Conclusion}
+
+\begin{frame}{Conclusion: Hot Jupiter Formation}
+    \begin{itemize}
+        \item Several hundred Jupiter planets are under 0.25 AU at closest approach.
+        \item As we started with 110,000 Jupiters, the rate of occurance is between 0.1\% and 1.0\%.
+        \item These Jupiters are highly eccentric.
+    \end{itemize}
     \begin{figure}
         \centering
-        \includegraphics[height=1.75in]{jupiter_distance_final}
+        \includegraphics[height=1.85in]{periastron_jupiter_1000_close.png}
     \end{figure}
+\end{frame}
+
+\begin{frame}{Conclusion: Circularization?}
     \begin{itemize}
-        \item Again we see most Jupiter planets are not greatly affected.
-        \item The effect amount smears the closest approach toward zero,
-            with decreasing frequency the larger the change.
-        \item Some Jupiters do get very close to their host star.
+        \item Most Hot Jupiters are mostly circular orbits.
+        \item Our simulations output eccentric Jupiters.
+        \item Tidal effects on the Jupiter may "circularize" the orbit.
         \begin{itemize}
-            \item These could be further analyzed.
+            \item This process occurs over thousands of years.
+            \item Our simulation only simulates about 1,000 years for each encounter.
         \end{itemize}
+        \item Further simulations need performed to determine if this can make our results
+            match observation.
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Results -- Earth}
-    \begin{itemize}
-        \item Earths are, as expected, affected less than Jupiters by the interaction.
-        \item Further simulation analysis needed to see if they are affected by Jupiter
-            migration.
-        \item Presumably more distant planets such as Neptunes would be more dramatically
-            affected.
-    \end{itemize}
-    \begin{figure}
-        \centering
-        \includegraphics[height=1.75in]{earth_distance_final}
-    \end{figure}
+\begin{frame}
+    \Huge
+    \begin{centering}
+        Questions?
+    \end{centering}
 \end{frame}
-
 
 \end{document}
